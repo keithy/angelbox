@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Run this when the configuration changes to
+# regenerate the .env file for docker-compose
+
+grep -v "#i#" $1 > /tmp/env
+awk '{if (sub(/\\$/,"")) printf "%s", $0; else print $0}' /tmp/env > .env
+sed -i 's/    //g' .env
