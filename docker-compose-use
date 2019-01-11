@@ -3,14 +3,20 @@
 # Run this preprocessor when the configuration changes to
 # regenerate the .env file for docker-compose
 
+out=${2:-.env}
+
 # Step 1. Lines with a single '# ' are removed completely)
 # This allows commenting to work within a series of \ separated lines
-## lines to survive this filter.
-
-grep -v "^# " $1 > /tmp/env1
+# not conventional, but more readable
+## lines will survive this filter.
+grep -vE "^#( |$)" $1 > /tmp/${out}1
 
 # Step 2. Whitespace is trimmed
-sed -i 's/^ *//;s/ *$//' /tmp/env1
+sed -iE 's/^ *//;s/ *$//' /tmp/${out}1
+
+# Step 4. Remove Empty lines
+grep . /tmp/${out}1 > /tmp/${out}2
 
 # Step 3. Lines ending in \ are concatenated
-awk '{if (sub(/\\$/,"")) printf "%s", $0; else print $0}' /tmp/env1 > .env
+awk '{if (sub(/\\$/,"")) printf "%s", $0; else print $0}' /tmp/${out}2 > ${out}
+
