@@ -1,6 +1,5 @@
 #!/bin/sh
 
-
 cat > /tmp/dcu_fixture << 'END'
 #Start
 # Comment
@@ -19,7 +18,6 @@ cat > /tmp/dcu_expected << 'END'
 ## Output
 1 2 3
 END
-
 
 ../docker-compose-use /tmp/dcu_fixture dcu_output
 
