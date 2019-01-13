@@ -6,6 +6,6 @@ git:
 language: bash
 
 before_script: cd tests
-script: bash test_dockercompose-use.sh
+script: bash test_docker-compose-use.sh
 
 
