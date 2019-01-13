@@ -1,4 +1,4 @@
-#if: commit_message =~ /:ci$/
+if: commit_message =~ /:ci$/
 
 git:
   depth: 1
