@@ -1,11 +1,37 @@
-if: commit_message =~ /:ci$/
+sudo: required
+dist: trusty
+addons:
+  apt:
+    packages:
+    - realpath
 
-git:
-  depth: 1
+language: c
 
-language: bash
+env:
+  global:
+  - GOSS_VERSION=0.3.6
+  - GOSS_PATH=/usr/local/bin/goss
 
-before_script: cd tests
-script: bash test_docker-compose-use.sh
+services:
+- docker
 
+before_install:
+- sudo curl -L https://github.com/aelsabbahy/goss/releases/download/v$GOSS_VERSION/goss-linux-amd64 -o /usr/local/bin/goss
+- sudo curl -L https://github.com/aelsabbahy/goss/releases/download/v$GOSS_VERSION/dgoss -o /usr/local/bin/dgoss
+- sudo curl -L https://raw.githubusercontent.com/joeblackwaslike/dcgoss/master/build/dcgoss -o /usr/local/bin/dcgoss
+- sudo chmod +rx /usr/local/bin/goss
+- sudo chmod +rx /usr/local/bin/dgoss
+- sudo chmod +rx /usr/local/bin/dcgoss
 
+install: true
+
+script:
+- make test
+- make push
+
+notifications:
+#webhooks: https://hooks.microbadger.com/images/rajatvig/kinesalite-alpine/8nXeZok1Zdzf6NLLdDhQYhhAKkY=
+  email:
+    on_success: never
+    on_failure: never
+#   on_failure: always
