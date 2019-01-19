@@ -1,0 +1,26 @@
+version: '2.1'
+
+services:
+
+    # This runs once on #up (adds the necessary user privileges) and finishes
+    # Some would name this service as a one-shot -task
+    # but it is also useful as an interactive client.
+    # To use interactively: docker-compose run --rm mysql_cli
+
+  mysql_cli:
+    depends_on:
+    - mysql
+    image: ${MYSQL_SERVER:-mysql:5.7}
+    container_name: mariaDB_cli
+    volumes:
+    # a place to put the root password when it changes
+    - ./xwiki/mysql.cnf:/root/.my.cnf
+    entrypoint:
+    - mysql
+    - --user=root
+    - --password=xwiki # this can be replaced with a root password in .my.cnf
+    - --host=mysql
+    - --protocol=TCP
+    - --default-character-set=utf8
+    # Open access for xwiki user, not just on same ip as the server
+    - --init-command=GRANT ALL ON *.* TO `xwiki`@`%`

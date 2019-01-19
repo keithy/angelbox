@@ -1,0 +1,11 @@
+if: commit_message =~ /:ci$/
+
+git:
+  depth: 1
+
+language: bash
+
+before_script: cd tests
+script: bash test_docker-compose-use.sh
+
+

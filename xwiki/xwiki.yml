@@ -1,0 +1,59 @@
+# Use local overriding file to add and integrate services
+# The first time the database is run, defaults are used
+# However if the passwords are changed, the new password can be placed in the 
+# credentials file, subsequent build of xwiki/client will pick up the new passwords
+# (Note the mysql/password is set in the persistent volume hibernate.cfg.xml anyhow)
+
+version: '2'
+
+volumes:
+   xw_data:
+     driver: anybox/buttervolume:latest # btrfs volume driver
+   xw_tomcat:
+     driver: anybox/buttervolume:latest # btrfs volume driver
+ 
+services:
+  wiki:
+    env_file:
+      - /etc/xwiki_credentials.env
+    # once built the image has this name
+    image: "xwiki:10.9-slim"
+    build: 
+      # remote definition
+      context: "../xwiki/10.9-tomcat"
+#      context: "https://github.com/keithy/docker-xwiki.git#keithy:latest"
+      # BUILDTIME ENVIRONMENT VARS
+      args:
+        DB: mysql
+        BASE_IMAGE: tomcat
+        BASE_TAG: 8-jre8-slim
+        # Good practice to take the latest Dockerfile and copy the version and SHA here
+        # this ensures that the codebase of this installation is recorded/fixed.
+        XWIKI_VERSION: 10.9
+        XWIKI_DOWNLOAD_SHA256: 01d27367b9c709e325c168f7e3bf61d998ffcab4
+    depends_on:
+      - mariaDB
+    ports:
+      - "8080:8080" 
+    # RUNTIME ENVIRONMENT VARS
+    # The DB_USER/DB_PASSWORD/DB_HOST variables are patched into hibernate.cfg.xml
+    environment:
+      # default DB_USER etc are defined in DockerFile, but can be overridden
+      # using docker-compose.override.yml & environment: or env_file
+      - DB_HOST=mariaDB # use TCP/IP
+    # - DB_HOST=localhost # use socket (not supported with mysql-java library
+    # Named xwiki permanent directory
+    volumes:
+      - xw_data:/usr/local/xwiki
+      - xw_tomcat:/usr/local/tomcat/webapps
+    # - /run/mysqld:/run/mysqld # access socket available on the host
+    restart: always
+
+  nginx:  
+    volumes:
+      - xw_tomcat:/xw_tomcat
+      - ./nginx/xwiki:/etc/nginx/xwiki
+
+
+
+

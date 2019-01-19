@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+  nginx:
+    command: [nginx-debug, '-g', 'daemon off;']
+    restart: no
+
+ 
+

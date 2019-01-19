@@ -1,0 +1,14 @@
+#!/bin/sh
+# docker-php-ext-download <extname> <url> [--install]
+
+dir=/usr/src/php/ext
+
+PKG=$1 ; shift
+URL=$1 ; shift
+
+mkdir -p $dir/$PKG
+curl -sSL $URL | tar -zx -C $dir/$PKG --strip-components=1 
+
+[ ! -z "$*" ] && docker-php-ext-configure $PKG $@
+
+docker-php-ext-install $PKG

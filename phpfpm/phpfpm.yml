@@ -1,0 +1,46 @@
+# This is php-fpm as provided by php via docker.
+# This would be the most up to date and production ready.
+# - but it may not have all of the extensions available out of the box
+
+version: '2'
+
+volumes:
+  wp_bedrock:
+     driver: anybox/buttervolume:latest # btrfs volume driver
+
+services:
+  phpfpm:
+    entrypoint: ["sh", "-c", "sleep 2073600"] # for build development
+#   command: [ "php-fpm" ]
+    image: phpfpm-alpine
+    build: 
+      context: ./phpfpm
+      args:
+#       FROM: php:5.6-fpm-alpine
+        FROM: php:7.2-fpm-alpine
+#       FROM: php:rc-fpm-alpine
+        BUILDFILE: /build/Buildfile-none.sh
+        UID: 889
+    volumes:
+      - ./phpfpm/root/build:/build
+      - wp_bedrock:/var/www/html
+    expose:
+      - "9000" # set in
+    depends_on:
+      - mariaDB
+      - memcached
+#     - elasticsearch
+    env_file:
+      - /etc/wordpress_credentials.env
+    environment:
+      - WORDPRESS_DB_NAME=dev
+      - WORDPRESS_TABLE_PREFIX=wp_
+      - WORDPRESS_DB_HOST=mariaDB
+ 
+#     - ../wp-docker-bedrock/config/php-fpm/php.ini:/usr/local/etc/php/php.ini
+#     - ../wp-docker-bedrock/config/php-fpm/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+#    extra_hosts:
+#      - "wp-docker-bedrock.dev:172.18.0.1"
+#    restart: always
+

@@ -1,0 +1,76 @@
+# To deploy use phpfpm.yml
+# For development/debugging run docker-compose from this directory,
+# and it will use this file.
+# 
+# docker-compose up # will build and launch the base image including
+# build-dependencies without building any of the optional modules.
+# 
+# Edit the build file of your choice (e.g. Buildfile.sh) to select
+# (i.e. ADD_YAML=true) the module whose build/compilation is under test.
+# go into the container specifying user 0, and execute that buildfile
+# 
+# #> docker exec -tiu 0 <id> sh
+# var/www/html> /bin/sh /build/Buildfile.sh
+#
+# To reset the environment: dc up --force-recreate -d
+
+version: '2'
+
+services:
+  test:
+    entrypoint: ["sh", "-c", "sleep 2073600"] # for build development
+#   command: [ "php-fpm" ]
+    image: phpfpm-alpine
+    build: 
+      context: .
+      args:
+#       FROM: nyanpass/php5.5:fpm-alpine
+#       FROM: php:5.6-fpm-alpine
+        FROM: php:7.2-fpm-alpine
+#       FROM: php:rc-fpm-alpine
+        BUILDFILE: /build/Buildfile-none.sh
+        UID: 0
+    volumes:
+      - ./root/build:/build
+    expose:
+      - "9000"
+
+#  test55:
+#    command: [ "php-fpm" ]
+#    image: phpfpm-alpine:5.5-all
+#    build: 
+#      context: .
+#      args:
+#        FROM: nyanpass/php5.5:fpm-alpine
+#        BUILDFILE: /build/Buildfile-all.sh
+#        UID: 0
+
+  test56:
+    command: [ "php-fpm" ]
+    image: phpfpm-alpine:5.6-all
+    build: 
+      context: .
+      args:
+        FROM: php:5.6-fpm-alpine
+        BUILDFILE: /build/Buildfile-all.sh
+        UID: 0
+
+  test72:
+    command: [ "php-fpm" ]
+    image: phpfpm-alpine:7.2-all
+    build: 
+      context: .
+      args:
+        FROM: php:7.2-fpm-alpine
+        BUILDFILE: /build/Buildfile-all.sh
+        UID: 0
+
+  test73:
+    command: [ "php-fpm" ]
+    image: phpfpm-alpine:7.3-all
+    build: 
+      context: .
+      args:
+        FROM: php:rc-fpm-alpine
+        BUILDFILE: /build/Buildfile-all.sh
+        UID: 0

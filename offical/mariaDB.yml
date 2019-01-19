@@ -1,0 +1,54 @@
+version: '2.1'
+        
+volumes:
+  db:
+     driver: ${VOLUME_DRIVER:-local}
+
+services:
+  mysql:
+    image: ${MYSQL_SERVER:-mysql:5.7}
+    container_name: mariaDB
+    # Named mysql permanent data directory
+    ports:
+    - "${HOST_MYSQL:-3306}:3306"
+    volumes:
+      - ${HOST_PATH_MYSQL_DATADIR:-db}:/var/lib/mysql:rw${MOUNT_OPTIONS}
+
+    # Create the initial MySQL database and user with these defaults
+    # (for initialization of the database see mariaDB.socker-client)
+    # See https://hub.docker.com/_/mysql/ for more details.
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysql
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=mysql
+      - MYSQL_DATABASE=test
+    command:
+      # The following options are typically supplied via the mysql.cnf file
+      # providing them directly here avoids the need
+      - --key_buffer_size=384M
+      - --sort_buffer_size=4M
+      - --read_buffer_size=1M
+      - --character-set-server=utf8 
+      - --collation-server=utf8_bin
+      - --explicit-defaults-for-timestamp=1
+    restart: always
+
+# Example Options
+# HOST_MYSQL=3307
+# HOST_MYSQL=127.0.0.1:3306
+
+# MYSQL_SERVER=mysql:5.5
+# MYSQL_SERVER=mysql:5.6
+# MYSQL_SERVER=mysql:5.7
+# MYSQL_SERVER=mysql:8.0
+# MYSQL_SERVER=mariadb:10.1
+# MYSQL_SERVER=mariadb:10.2
+# Alpine 3.8.1 + MariaDB v10.2.15 (armhf / :aarch64)
+# MYSQL_SERVER=yobasystems/alpine-mariadb::aarch64
+# MYSQL_SERVER=mariadb:10.3
+# MYSQL_SERVER=mariadb:10.4
+
+##Alpine mariaDB
+# MYSQL_SERVER=craftdock/mariadb:10.1
+# MYSQL_SERVER=craftdock/mariadb:10.2
+# MYSQL_SERVER=craftdock/mariadb:10.3

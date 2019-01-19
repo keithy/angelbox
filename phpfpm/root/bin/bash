@@ -1,0 +1,5 @@
+#!/bin/sh
+# If you have a habit of typing bash in alpine this fakes it
+echo "fake bash (use sh)"
+
+exec sh "$@"
