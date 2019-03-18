@@ -1,0 +1,29 @@
+version: '3.1'
+
+services:
+  # This runs once on #up
+  # (it can potentially add the necessary user privileges and finish
+  # see xwiki/mysql.socket-client.yml)
+  # Some would name this service as a one-shot -task
+  # but it is also useful as an interactive client.
+  # To use interactively: docker-compose run --rm mysql_cli
+
+  mysql_cli:
+    depends_on:
+      - mysql
+    image: ${MYSQL_IMAGE:-mysql:5.7}
+    container_name: ${MYSQL_CONTAINER_NAME:-mysql}_cli
+    uid: ${MYSQL_UID:-888}:0
+     # a place to put the root password when it changes
+    entrypoint:
+      - mysql
+      - --host=mysql
+      - --protocol=TCP
+      - --user=root
+      - --defaults-extra-file=/run/secrets/mysql_root_pass.cnf
+      - --default-character-set=utf8
+      - --init-command=${MYSQL_CLI_ENTRYPOINT_INIT_COMMAND:-DO 1}
+
+# Options (default=DO 1)
+# MYSQL_CLI_ENTRYPOINT_INIT_COMMAND=GRANT ALL ON *.* TO `mysql`@`%`
+

@@ -2,7 +2,7 @@
 # This would be the most up to date and production ready.
 # - but it may not have all of the extensions available out of the box
 
-version: '2'
+version: '3.1'
 
 volumes:
   wp_bedrock:
@@ -27,8 +27,8 @@ services:
     expose:
       - "9000" # set in
     depends_on:
-      - mariaDB
-      - memcached
+      - mysql
+#      - memcached
 #     - elasticsearch
     env_file:
       - /etc/wordpress_credentials.env

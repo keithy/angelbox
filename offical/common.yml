@@ -1,4 +1,0 @@
-# Defines features common to all
-# 'official' - packages up official images for use in the Box
-
-version: '2.1'

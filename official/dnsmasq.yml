@@ -1,0 +1,16 @@
+version: '3.1'
+
+services:
+  tools:
+    image: ${IMAGE_DNSMASQ:-andyshinn/dnsmasq:2.78}
+    ports:
+      - "53:53"
+      - "53:53/udp"
+    volumes:
+      - ${DNSMASQ_CONFIG:-./config/dnsmasq.conf}:/etc/dnsmasq.d/local.conf
+    cap_add:
+      - NET_ADMIN
+    entrypoint: 
+      - dnsmasq
+      - -k
+      - --log-facility=-
