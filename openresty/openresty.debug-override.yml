@@ -1,9 +1,9 @@
 version: '3.1'
 
 services:
-  nginx:
+  resty:
     command: [nginx-debug, '-g', 'daemon off;']
     restart: no
 
-
+ 
 

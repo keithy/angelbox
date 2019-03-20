@@ -1,0 +1,5 @@
+URL_RESTY="https://openresty.org/download/openresty-1.15.8.1rc1.tar.gz"
+URL_OPENSSL_4_ALPINE="https://www.openssl.org/source/openssl-1.0.2r.tar.gz"
+URL_OPENSSL="https://www.openssl.org/source/openssl-1.1.0j.tar.gz"
+URL_PCRE="https://ftp.pcre.org/pub/pcre/pcre-8.42.tar.gz"
+URL_LUAROCKS="https://github.com/luarocks/luarocks/archive/3.0.4.tar.gz"

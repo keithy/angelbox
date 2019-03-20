@@ -3,17 +3,17 @@ version: '3.1'
 services:
   mysql_cli:
     depends_on:
-      - mysql
+    - mysql
     image: ${MYSQL_IMAGE:-mysql:5.7}
     container_name: ${MYSQL_CONTAINER_NAME:-mysql}_cli
     volumes:
        # data directory includes the socket
-     - ${MYSQL_VOLUMES_DATADIR:-db}:/var/lib/mysql:rw${MOUNT_OPTIONS}
+    - ${MYSQL_VOLUMES_DATADIR:-db}:/var/lib/mysql:rw${MOUNT_OPTIONS}
     entrypoint:
-      - mysql
-      - --defaults-extra-file=/run/secrets/mysql_root_pass.cnf
-      - --user=root
-      - --socket=/var/lib/mysql/mysqld.sock
-      - --default-character-set=utf8
-      - --prompt=\u@\h [\d]> 
-      - --init-command=${MYSQL_CLI_ENTRYPOINT_INIT_COMMAND:-DO 1}
+    - mysql
+    - --defaults-extra-file=/run/secrets/mysql_root_pass.cnf
+    - --user=root
+    - --socket=/var/lib/mysql/mysqld.sock
+    - --default-character-set=utf8
+    - --prompt=\u@\h [\d]> 
+    - --init-command=${MYSQL_CLI_ENTRYPOINT_INIT_COMMAND:-DO 1}

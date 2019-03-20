@@ -1,0 +1,4 @@
+# Defines features common to all
+# Always the first item in the env list
+
+version: '3.1'
