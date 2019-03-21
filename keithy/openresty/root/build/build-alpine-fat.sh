@@ -1,12 +1,29 @@
+#!/bin/sh
 
-source /build/build-alpine.sh
+id
+
+# Bash-strict-mode
+IFS=$'\n\t'
+set -euo pipefail
+
+# Arguments to be supplied by build invocation (Docker Compose)
+echo "PWD: " $(pwd)
+echo "FROM: $FROM"
+echo "USER: $USER ($UID)"
+echo "BUILD_SCRIPT: $BUILD_SCRIPT"
+echo "BUILD_CONFIG: $BUILD_CONFIG"
+
+# CONSTANTS & SOURCES
+source /build/urls.sh && cat /build/urls.sh
+
+set -x
+
+apk add --virtual .fat-stuff bash build-base curl linux-headers make perl unzip
 
 cd /tmp
-
 mkdir -p luarocks && curl -fSL ${URL_LUAROCKS} | tar xz --strip-components=1 -C luarocks
 
 cd luarocks
-
 ./configure \
         --prefix=/usr/local/openresty/luajit \
         --with-lua=/usr/local/openresty/luajit \

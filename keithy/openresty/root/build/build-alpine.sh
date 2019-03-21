@@ -35,7 +35,7 @@ if [ ! -f /etc/.build_dependencies ]; then
     apk upgrade
 
     # temporarily install packages necessary for compilation
-    apk add --virtual build-dependencies \
+    apk add --virtual .build-dependencies \
         build-base \
         curl \
         gd-dev \

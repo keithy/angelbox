@@ -1,8 +1,7 @@
-ARG FROM=keithy/openresty-no-sse4.2:alpine-fat
+ARG FROM=registry.gitlab.com/keithy/angelbox/openresty-no-sse4.2:alpine-fat
 
 FROM ${FROM}
-
-ARG FROM=keithy/openresty-no-sse4.2:alpine-fat
+USER 0
 
 # allowed domains should be lua match pattern
 ENV DIFFIE_HELLMAN='' ALLOWED_DOMAINS='.*' AUTO_SSL_VERSION='0.11.1' FORCE_HTTPS='true' SITES='' LETSENCRYPT_URL='https://acme-v01.api.letsencrypt.org/directory'
@@ -18,13 +17,18 @@ RUN apk --no-cache add bash openssl \
     -out /etc/ssl/resty-auto-ssl-fallback.crt \
     && openssl dhparam -out /usr/local/openresty/nginx/conf/dhparam.pem 2048 \
     # let's remove default open resty configuration, we'll conditionally add modified version in entrypoint.sh
-    && rm /etc/nginx/conf.d/default.conf
+    && rm /etc/nginx/conf.d/default.conf \
+    # This tidy-up has no effect at present since .fatstuff is in a different layer
+    && if [[ "$BUILD_CLEAN" == "true" ]]; then apk del -v .fat-stuff ; fi \
+    && echo "Finished"
 
-COPY  docker-nginx-auto-ssl/nginx.conf  docker-nginx-auto-ssl/snippets /usr/local/openresty/nginx/conf/
+COPY docker-nginx-auto-ssl/nginx.conf  docker-nginx-auto-ssl/snippets /usr/local/openresty/nginx/conf/
 COPY docker-nginx-auto-ssl/entrypoint.sh /entrypoint-orig.sh
 COPY entrypoint.sh /entrypoint.sh
 
 VOLUME /etc/resty-auto-ssl
+
+USER ${UID}
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/usr/local/openresty/bin/openresty", "-g", "daemon off;"]

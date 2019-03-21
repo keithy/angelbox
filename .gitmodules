@@ -1,3 +1,3 @@
-[submodule "keithy/openresty+letsencrypt/docker-nginx-auto-ssl"]
-	path = keithy/openresty+letsencrypt/docker-nginx-auto-ssl
+[submodule "keithy/openresty_autossl/docker-nginx-auto-ssl"]
+	path = keithy/openresty_autossl/docker-nginx-auto-ssl
 	url = https://github.com/Valian/docker-nginx-auto-ssl
