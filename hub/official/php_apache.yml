@@ -1,0 +1,23 @@
+# This is docker's official php image
+# This would be the most up to date and production ready.
+# - but it may not have all of the extensions available out of the box
+
+version: '3.1'
+
+services:
+  php_apache:
+    image: ${PHP_APACHE_IMAGE:-php:apache}
+    working_dir: /srv
+    volumes:
+    - ${PHP_APACHE_VOLUMES_SRC:-./config/php_cli-src}:/srv:rw${MOUNT_OPTIONS}
+    - ${PHP_APACHE_VOLUMES_WWW:-./config/php_apache-www}:/var/www:rw${MOUNT_OPTIONS} 
+    ports: 
+    - "${PHP_APACHE_PORTS_80:-80}:80"
+
+# OPTIONS
+# PHP_APACHE_IMAGE=php:apache
+# PHP_APACHE_IMAGE=php:7.3-apache-stretch
+# PHP_APACHE_IMAGE=php:7.2-apache-stretch
+# PHP_APACHE_IMAGE=php:7.1-apache-stretch
+# PHP_APACHE_IMAGE=php:7.1-apache-jessie
+ 

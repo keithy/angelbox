@@ -1,0 +1,24 @@
+version: '3.1'
+
+services:
+  resty:
+    image: ${RESTY_IMAGE:-openresty/openresty:alpine}
+#   command: [nginx-debug, '-g', 'daemon off;'] # optional
+    ports:
+    - "${RESTY_PORTS_80:-80}:80"
+    - "${RESTY_PORTS_443:-443}:443"
+    volumes:
+    - ${RESTY_VOLUMES_CONF_D:-./config/resty-conf.d}:/etc/nginx/conf.d:rw${MOUNT_OPTIONS}
+    restart: always
+
+# OpenResty Options https://hub.docker.com/r/openresty/openresty/
+
+# $RESTY_IMAGE=openresty:alpine 
+# $RESTY_IMAGE=openresty:alpine-fat
+# $RESTY_IMAGE=openresty:centos
+# $RESTY_IMAGE=openresty:stretch 
+# $RESTY_IMAGE=openresty:bionic
+# $RESTY_IMAGE=openresty:xenial
+
+# $RESTY_IMAGE=registry.gitlab.com/keithy/angelbox/openresty-no-sse4.2:alpine
+# $RESTY_IMAGE=registry.gitlab.com/keithy/angelbox/openresty-no-sse4.2:alpine-fat

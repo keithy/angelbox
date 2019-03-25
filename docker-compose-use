@@ -1,34 +1,45 @@
 #!/bin/env bash
 # Run this preprocessor when the configuration changes to
 # regenerate the .env file for docker-compose
-# 
+
+set -ue
+
 # Parameter 1 : The source *.env file (comments and blank lines allowed)
-# Parameter 2 : The output file (default .env) - for testing
+SOURCE_ENV="${1:-angelbox.env}"
 
-# Find where we we are, to configure THIS docker-compose folder
-thisScript=$(readlink -f "${BASH_SOURCE[0]}")
-thisDir="${thisScript%/*}"
+# Parameter 2 : A second source *.env file providing server specific environment values
+SERVER_ENV="${2:-/etc/angelbox/server.env}"
 
-# Set the default .env file that docker-compose uses
-out=${2:-.env}
+# Parameter 3 : The output file (default .env) - for testing
+out="${3:-.env}"
 
-# A random tmp-file suffix
+# Temporary files
 rand=$RANDOM
+tmpA="/tmp/${out}${rand}a"
+tmpB="/tmp/${out}${rand}b"
+tmpC="/tmp/${out}${rand}c"
 
-# Step 1. Lines with a single '# ' are removed completely)
+#Header
+echo "##From: $SOURCE_ENV" > "$tmpA"
+
+# Step 1. Whitespace is trimmed
+sed -E 's/^ *//;s/ *$//' "$SOURCE_ENV" >> "$tmpA"
+
+# Step 2. Lines with a single '#' are removed completely)
 # This allows commenting to work within a series of \ separated lines
 # not conventional, but more readable
 ## lines will survive this filter.
 
-grep -vE "^#( |$)" $1 > /tmp/${out}${rand}
-
-# Step 2. Whitespace is trimmed (in place)
-sed -iE 's/^ *//;s/ *$//' /tmp/${out}${rand}
+grep -vE "^#([^#]|$)" "$tmpA" > "$tmpB"
 
 # Step 4. Remove Empty lines
-grep . /tmp/${out}${rand} > /tmp/${out}${rand}1
+grep . "$tmpB" > "$tmpA"
 
 # Step 3. Lines ending in \ are concatenated
-awk '{if (sub(/\\$/,"")) printf "%s", $0; else print $0}' /tmp/${out}${rand}1 > "${thisDir}/${out}"
+awk '{if (sub(/\\$/,"")) printf "%s", $0; else print $0}' "$tmpA" > "${out}"
+
+# Append additional overriding environment variables
+[[ -f "$SERVER_ENV" ]] && echo "##From: $SERVER_ENV" >> "${out}"
+[[ -f "$SERVER_ENV" ]] && cat "$SERVER_ENV" >> "${out}"
  
-echo "Set $thisDir/${out}" 2>&1
+echo "Set ${PWD}/${out}" 2>&1

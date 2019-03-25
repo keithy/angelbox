@@ -1,0 +1,28 @@
+# This is docker's official php image
+# This would be the most up to date and production ready.
+# - but it may not have all of the extensions available out of the box
+
+version: '3.1'
+
+services:
+  php_zts:
+    image: ${PHP_ZTS_IMAGE:-php:zts-alpine}
+    working_dir: /srv
+    volumes:
+    - ${PHP_ZTS_VOLUMES_SRC:-./config/php_cli-src}:/srv:rw${MOUNT_OPTIONS}
+
+# OPTIONS
+# PHP_ZTS_IMAGE=php:zts
+# PHP_ZTS_IMAGE=php:zts-stretch
+# PHP_ZTS_IMAGE=php:zts-alpine
+# PHP_ZTS_IMAGE=php:7.3-zts-stretch
+# PHP_ZTS_IMAGE=php:7.3-zts-alpine
+# PHP_ZTS_IMAGE=php:7.3-zts-alpine3.8
+# PHP_ZTS_IMAGE=php:7.2-zts-stretch
+# PHP_ZTS_IMAGE=php:7.2-zts-alpine
+# PHP_ZTS_IMAGE=php:7.2-zts-alpine3.8
+# PHP_ZTS_IMAGE=php:7.1-zts-stretch
+# PHP_ZTS_IMAGE=php:7.1-zts-jessie
+# PHP_ZTS_IMAGE=php:7.1-zts-alpine
+# PHP_ZTS_IMAGE=php:7.1-zts-alpine3.8
+

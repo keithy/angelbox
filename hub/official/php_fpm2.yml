@@ -1,0 +1,28 @@
+# This is docker's official php image
+# This would be the most up to date and production ready.
+# - but it may not have all of the extensions available out of the box
+
+version: '3.1'
+
+services:
+  php_fpm2:
+    image: ${PHP_FPM2_IMAGE:-php:fpm-alpine}
+    working_dir: /srv
+    volumes:
+    - ${PHP_FPM2_VOLUMES_SRC:-./config/php_cli-src}:/srv:rw${MOUNT_OPTIONS}
+    - ${PHP_FPM2_VOLUMES_WWW:-./config/php_fpm-www}:/var/www:rw${MOUNT_OPTIONS}
+
+# OPTIONS
+# PHP_FPM2_IMAGE=php:fpm
+# PHP_FPM2_IMAGE=php:fpm-stretch
+# PHP_FPM2_IMAGE=php:7.3-fpm-stretch
+# PHP_FPM2_IMAGE=php:7.3-fpm-alpine
+# PHP_FPM2_IMAGE=php:7.3-fpm-alpine3.8
+# PHP_FPM2_IMAGE=php:7.2-fpm-stretch
+# PHP_FPM2_IMAGE=php:7.2-fpm-alpine
+# PHP_FPM2_IMAGE=php:7.2-fpm-alpine3.8
+# PHP_FPM2_IMAGE=php:7.1-fpm-stretch
+# PHP_FPM2_IMAGE=php:7.1-fpm-jessie
+# PHP_FPM2_IMAGE=php:7.1-fpm-alpine
+# PHP_FPM2_IMAGE=php:7.1-fpm-alpine3.8
+

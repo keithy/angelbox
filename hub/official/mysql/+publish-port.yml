@@ -1,0 +1,6 @@
+version: '3.1'
+ 
+services:
+  mysql:
+    ports: 
+    - "${MYSQL_PORTS_3306:-3306}:3306"

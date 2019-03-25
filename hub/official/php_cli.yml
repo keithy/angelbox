@@ -1,0 +1,27 @@
+# This is docker's official php image
+# This would be the most up to date and production ready.
+# - but it may not have all of the extensions available out of the box
+
+version: '3.1'
+
+services:
+  php_cli:
+    image: ${PHP_CLI_IMAGE:-php:cli-alpine}
+    command:
+    - php
+    - ${PHP_CLI_COMMAND_SCRIPT:-./version.php}
+    working_dir: /srv
+    volumes:
+    - ${PHP_CLI_VOLUMES_SRC:-./config/php_cli-src}:/srv:rw${MOUNT_OPTIONS}
+    
+# OPTIONS
+# PHP_CLI_IMAGE=php:cli-alpine
+# PHP_CLI_IMAGE=php:7.3-cli-alpine
+# PHP_CLI_IMAGE=php:7.2-cli-alpine
+# PHP_CLI_IMAGE=php:7.2-cli-alpine3.8
+# PHP_CLI_IMAGE=php:7.1-cli-alpine
+# PHP_CLI_IMAGE=php:7.1-cli-alpine3.8
+# PHP_CLI_IMAGE=php:7.3-cli-stretch
+# PHP_CLI_IMAGE=php:7.2-cli-stretch
+# PHP_CLI_IMAGE=php:7.1-cli-stretch
+# PHP_CLI_IMAGE=php:7.1-cli-jessie

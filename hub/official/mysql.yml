@@ -1,0 +1,62 @@
+version: '3.1'
+        
+volumes:
+  db:
+     driver: ${VOLUMES_DRIVER:-local}
+
+services:
+  mysql:
+#    entrypoint: ["sh", "-c", "sleep 2073600"]
+    image: ${MYSQL_IMAGE:-mysql:5.7}
+    container_name: ${MYSQL_CONTAINER_NAME:-mysql}
+    # Named mysql permanent data directory
+    volumes:
+    - ${MYSQL_VOLUMES_DATADIR:-db}:/var/lib/mysql:rw${MOUNT_OPTIONS}
+
+    # Create the initial MySQL database and user with these defaults
+    # (for initialization of the database see mariaDB.socker-client)
+    # See https://hub.docker.com/_/mysql/ for more details.
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_pass
+      MYSQL_USER: ${MYSQL_ENVIRONMENT_MYSQL_USER:-mysql}
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql_manager_pass
+      MYSQL_DATABASE: ${MYSQL_ENVIRONMENT_MYSQL_DATABASE:-test}
+    command:
+    # The following options are typically supplied via the mysql.cnf file
+    # providing them directly here avoids the need
+    - --pid-file=/var/lib/mysql/mysqld.pid
+    - --socket=/var/lib/mysql/mysqld.sock
+    - --key_buffer_size=384M
+    - --sort_buffer_size=4M
+    - --read_buffer_size=1M
+    - --character-set-server=utf8 
+    - --collation-server=utf8_bin
+    - --explicit-defaults-for-timestamp=1
+    restart: always
+
+# Example Options (default=["3306:3306"])
+# MYSQL_PORT=3307
+# MYSQL_PORT=127.0.0.1:3306
+
+# Name the initial user (default=mysql)
+# MYSQL_ENVIRONMENT_MYSQL_USER=mysql
+
+# Name the initial database (default=test)
+# MYSQL_ENVIRONMENT_MYSQL_DATABASE=wordpress
+
+# Choose the Server Image (default=mysql:5.7)
+# MYSQL_IMAGE=mysql:5.5
+# MYSQL_IMAGE=mysql:5.6
+# MYSQL_IMAGE=mysql:5.7
+# MYSQL_IMAGE=mysql:8.0
+# MYSQL_IMAGE=mariadb:10.1
+# MYSQL_IMAGE=mariadb:10.2
+# MYSQL_IMAGE=mariadb:10.3
+# MYSQL_IMAGE=mariadb:10.4
+# Alpine 3.8.1 + MariaDB v10.2.15 (armhf / :aarch64)
+# MYSQL_IMAGE=yobasystems/alpine-mariadb::aarch64
+
+##Alpine mariaDB - these seem larger than the official images!
+# MYSQL_IMAGE=craftdock/mariadb:10.1
+# MYSQL_IMAGE=craftdock/mariadb:10.2
+# MYSQL_IMAGE=craftdock/mariadb:10.3
