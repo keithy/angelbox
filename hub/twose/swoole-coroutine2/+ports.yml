@@ -1,0 +1,6 @@
+version: '3.1'
+
+services:
+  swoole2:
+    ports:
+    - "${SWOOLE2_PORTS:-2200-2204:2200-2204}"

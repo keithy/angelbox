@@ -12,3 +12,4 @@ services:
     command: redis-server --appendonly yes
     volumes:
     - redis:/data:rw${MOUNT_OPTIONS}
+    restart: always

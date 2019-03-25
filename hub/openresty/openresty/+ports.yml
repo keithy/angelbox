@@ -1,0 +1,7 @@
+version: '3.1'
+
+services:
+  resty:
+    ports:
+    - "${RESTY_PORT_HTTP:-80}:80"
+    - "${RESTY_PORT_HTTPS:-443}:443"

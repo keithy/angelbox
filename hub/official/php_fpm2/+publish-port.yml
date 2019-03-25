@@ -1,6 +1,0 @@
-version: '3.1'
- 
-services:
-  php_fpm2:
-    ports: 
-    - "${PHP_FPM2_PORTS_9000:-9000}:9000"

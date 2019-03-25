@@ -1,6 +1,0 @@
-version: '3.1'
- 
-services:
-  php_cli:
-    ports: 
-    - "${PHP_CLI_PORTS:-8000-8010:8000-8010}"

@@ -25,3 +25,5 @@ services:
 # PHP_CLI_IMAGE=php:7.2-cli-stretch
 # PHP_CLI_IMAGE=php:7.1-cli-stretch
 # PHP_CLI_IMAGE=php:7.1-cli-jessie
+
+#PHP_CLI_IMAGE=registry.gitlab.com/keithy/angelbox/php_mysql:alp3.9-php7.3-swo4.3.1

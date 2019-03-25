@@ -4,17 +4,14 @@ services:
   nginx:
     image: ${NGINX_IMAGE:-nginx:alpine}
     command: [nginx-debug, '-g', 'daemon off;'] # optional
-    ports:
-    - "${NGINX_PORTS_80:-80}:80"
-    - "${NGINX_PORTS_443:-443}:443"
     volumes:
       - ${NGINX_VOLUMES_NGINX_CONF:-./config/nginx.conf}:/etc/nginx/nginx.conf
     restart: always
 
 # https://hub.docker.com/_/nginx
 
-# $NGINX_IMAGE=nginx:alpine 
+# $NGINX_IMAGE=nginx:alpine
 # $NGINX_IMAGE=nginx:alpine-perl
 # $NGINX_IMAGE=nginx:latest
-# $NGINX_IMAGE=nginx:stable 
+# $NGINX_IMAGE=nginx:stable
 

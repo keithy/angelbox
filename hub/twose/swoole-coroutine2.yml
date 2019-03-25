@@ -3,14 +3,17 @@
 # - but it may not have all of the extensions available out of the box
 
 version: '3.1'
-
-services:
-  php_fpm:
-    image: ${PHP_FPM_IMAGE:-php:fpm-alpine}
+  swoole2:
+    image: ${SWOOLE_IMAGE:-twosee/swoole-coroutine}
     working_dir: /srv
     volumes:
-    - ${PHP_FPM_VOLUMES_SRC:-./config/php_cli-src}:/srv:rw${MOUNT_OPTIONS}
-    - ${PHP_FPM_VOLUMES_WWW:-./config/php_fpm-www}:/var/www:rw${MOUNT_OPTIONS}
+      - ${SWOOLE_VOLUMES_SRC:-./config/swoole-src}:/srv:rw${MOUNT_OPTIONS}
+    depends_on:
+      - mysql
+    environment:
+      SWOOLE_PORT: ${SWOOLE2_ENVIRONMENT_SWOOLE_PORT:-6000} 
+    command: php /srv/server.php start   
+    restart: always
 
 # OPTIONS
 # PHP_FPM_IMAGE=php:fpm

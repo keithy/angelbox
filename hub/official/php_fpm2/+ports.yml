@@ -1,0 +1,6 @@
+version: '3.1'
+
+services:
+  php_fpm:
+    ports:
+    - "${PHP_FPM2_PORTS:-9002:9000}"

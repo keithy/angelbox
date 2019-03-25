@@ -20,6 +20,10 @@ source "$DIR/urls.sh"
 
 # Values and extensions selection
 source "$BUILD_ENV"
+#tweaks applying rules
+ADD_SWOOLE_PECL=${ADD_SWOOLE_PECL:-false}
+$ADD_SWOOLE || $ADD_SWOOLE_PECL && ADD_SOCKETS=true
+$ADD_SWOOLE_PECL && ADD_SWOOLE=false
 
 IFS=$'\n\t'
 set -xeuo pipefail
@@ -67,7 +71,7 @@ $ADD_FTP && add="$add php-ftp@php"
 $ADD_GD && add="$add php-gd@php"
 $ADD_GETTEXT && add="$add php-gettext@php"
 $ADD_GMP && add="$add php-gmp@php"
-$ADD_GMAGICK && add="$add graphicsmagick php-dev@php" && deps="$deps graphicsmagick-dev"
+$ADD_GMAGICK && add="$add graphicsmagick" && deps="$deps graphicsmagick-dev"
 $ADD_ICONV && add="$add php-iconv@php"
 $ADD_IMAGE_OPTIMIZERS && add="$add jpegoptim optipng pngquant gifsicle"
 $ADD_IMAGICK && add="$add php-imagick@php"
@@ -113,15 +117,18 @@ $ADD_SODIUM && add="$add php-sodium@php php-libsodium@php"
 $ADD_SQLITE3 && add="$add php-sqlite3@php"
 #$ADD_SQLITE_LIBS && add="$add sqlite-libs" #uncomment for PHP7.4+
 #$ADD_SSH2 && add="$add php-ssh2@php" # Not in 7.3 repo
-$ADD_SWOOLE && add="$add php-swoole@php"
+$ADD_SWOOLE && add="$add php-swoole@php" 
 $ADD_WPCLI && true
 $ADD_XDEBUG && add="$add php-xdebug@php" # either or
 $ADD_XML && add="$add php-xml@php" 
 $ADD_XMLREADER && add="$add php-xmlrpc@php" 
 $ADD_XMLRPC && add="$add php-xmlrpc@php" 
-$ADD_YAML && add="$add yaml php-dev@php" && deps="$deps yaml-dev"
+$ADD_YAML && add="$add yaml" && deps="$deps yaml-dev"
 $ADD_ZIP && add="$add php-zip@php" 
 $ADD_ZLIB && add="$add php-zlib@php" 
+
+#extras (saying yes to all options)
+$ADD_SWOOLE_PECL && add="$add libstdc++" && deps="$deps libaio-dev pcre2-dev openssl-dev" 
 
 echo "Installing: $add"
 IFS=$' '
@@ -135,9 +142,11 @@ done
 # https://github.com/codecasts/php-alpine/issues/68
 [[ -f /etc/php7/conf.d/00_ds.ini ]] && mv /etc/php7/conf.d/00_ds.ini /etc/php7/conf.d/01_ds.ini
 
+
 # To enable installation from pecl
 # temporarily install packages necessary for compilation
 if [ -n "$deps" ]; then
+  apk add php7-pear@php php-dev@php
   deps="$deps alpine-sdk linux-headers autoconf automake make gdb"
   deps="$deps libzip-dev pcre-dev libxml2-dev re2c strace tzdata zip pwgen libtool"
   apk add --virtual .build-dependencies $deps
@@ -149,18 +158,24 @@ if [ -n "$deps" ]; then
 	
 fi
 
+if $ADD_SWOOLE_PECL; then
+#  pecl install "$PECL_SWOOLE"
+  yes | pecl install swoole || true
+  echo "extension=swoole" > /etc/php7/conf.d/00_swoole_pecl.ini
+fi
+
 if $ADD_GMAGICK; then
-  pecl install $URL_GMAGICK
+  pecl install "$PECL_GMAGICK"
   echo "extension=gmagick" > /etc/php7/conf.d/20_gmagick.ini
 fi
 
 if $ADD_YAML; then
-  sudo pecl install yaml
+  sudo pecl install "$PECL_YAML"
   echo "extension=yaml" > /etc/php7/conf.d/01_yaml.ini
 fi
 
 if $ADD_IGBINARY; then
-  pecl install igbinary  
+  pecl install "$PECL_IGBINARY"  
   echo "extension=igbinary" > /etc/php7/conf.d/20_igbinary.ini
 fi
 
@@ -182,13 +197,18 @@ if [[ -d /var/www ]]; then
 fi
 
 # Post Install Config Options
-source ${BUILD_CONFIG:-/alpine/config-default.sh}
+[ -f $BUILD_CONFIG ] && source "$BUILD_CONFIG"
+
+#Timezone
+echo "${TIMEZONE:-UTC}" > /etc/timezone 
 
 echo "Cleaning up.."
 
 #For some reason php-dev cant be a sub-package within .build-dependencies
 #so we add and remove it explicitly
-apk del -v .build-dependencies php-dev@php || true
+apk del .build-dependencies || true 
+apk del php-dev || true
+
 rm -rf /tmp/*
 rm -rf /var/cache/apk/*
 rm /usr/lib/php7/modules/*.a || true

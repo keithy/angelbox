@@ -450,7 +450,7 @@ $ADD_WPCLI && curl -o /usr/local/bin/wp $URL_WPCLI
 cp -R /build/conf.d/$PHP_CONF/* /usr/local/etc/php/conf.d
 
 #Timezone
-echo "$TIMEZONE" > /etc/timezone 
+echo "${TIMEZONE:-UTC}" > /etc/timezone 
 
 #Port
 sed -i 's/127.0.0.1:9000/0.0.0.0:$FPM_PORT/g' /usr/local/etc/php-fpm.d/www.conf

@@ -1,0 +1,8 @@
+# Publish 5 ports
+
+version: '3.1'
+
+services:
+  php_cli:
+    ports:
+    - "${PHP_CLI_PORTS:-8000-8004:8000-8004}"

@@ -19,6 +19,7 @@ services:
       - mysql
       - --host=mysql
       - --protocol=TCP
+      - --port=${MYSQL_PORT:-3306}
       - --user=root
       - --defaults-extra-file=/run/secrets/mysql_root_pass.cnf
       - --default-character-set=utf8
