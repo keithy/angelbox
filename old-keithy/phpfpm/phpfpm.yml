@@ -13,7 +13,9 @@ services:
     entrypoint: ["sh", "-c", "sleep 2073600"] # for build development
 #   command: [ "php-fpm" ]
     image: phpfpm-alpine
-    build: 
+    environment:
+
+    build:
       context: ./phpfpm
       args:
 #       FROM: php:5.6-fpm-alpine
@@ -33,10 +35,11 @@ services:
     env_file:
       - /etc/wordpress_credentials.env
     environment:
-      - WORDPRESS_DB_NAME=dev
-      - WORDPRESS_TABLE_PREFIX=wp_
-      - WORDPRESS_DB_HOST=mariaDB
- 
+      ANGEL: ${ANGEL}
+      WORDPRESS_DB_NAME: dev
+      WORDPRESS_TABLE_PREFIX: wp_
+      WORDPRESS_DB_HOST: mariaDB
+
 #     - ../wp-docker-bedrock/config/php-fpm/php.ini:/usr/local/etc/php/php.ini
 #     - ../wp-docker-bedrock/config/php-fpm/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 

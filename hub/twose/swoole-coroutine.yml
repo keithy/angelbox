@@ -6,13 +6,12 @@ version: '3.1'
 services:
   swoole:
     image: ${SWOOLE_IMAGE:-twose/swoole-coroutine}
+    environment:
+      ANGEL: ${ANGEL}
+      SWOOLE_PORT: ${SWOOLE_ENVIRONMENT_SWOOLE_PORT:-6000}
     working_dir: /srv
     volumes:
-    - ${SWOOLE_VOLUMES_SRC:-./config/swoole-src}:/srv:rw${MOUNT_OPTIONS}
-    depends_on:
-      - mysql
-    environment:
-      SWOOLE_PORT: ${SWOOLE_ENVIRONMENT_SWOOLE_PORT:-6000}
+    - ${SWOOLE_VOLUMES_SRC:-./hub/twose/swoole-coroutine/src}:/srv:rw${MOUNT_OPTIONS}
     command: php /srv/server.php start
     restart: always
 

@@ -7,9 +7,11 @@ version: '3.1'
 services:
   php_zts:
     image: ${PHP_ZTS_IMAGE:-php:zts-alpine}
+    environment:
+      ANGEL: ${ANGEL}
     working_dir: /srv
     volumes:
-    - ${PHP_ZTS_VOLUMES_SRC:-./config/php_cli-src}:/srv:rw${MOUNT_OPTIONS}
+    - ${PHP_ZTS_VOLUMES_SRC:-./hub/official/php_cli/src}:/srv:rw${MOUNT_OPTIONS}
 
 # OPTIONS
 # PHP_ZTS_IMAGE=php:zts

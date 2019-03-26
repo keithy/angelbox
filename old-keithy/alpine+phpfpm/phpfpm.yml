@@ -13,7 +13,9 @@ services:
 #   entrypoint: ["sh", "-c", "sleep 2073600"] # for debugging
     command: [ "php-fpm" ]
     image: alpine+phpfpm
-    build: 
+    environment:
+      ANGEL: ${ANGEL}
+    build:
       context: ./php/alpine+phpfpm
       args:
         FROM: alpine:edge

@@ -7,10 +7,12 @@ version: '3.1'
 services:
   php_apache:
     image: ${PHP_APACHE_IMAGE:-php:apache}
+    environment:
+      ANGEL: ${ANGEL}
     working_dir: /srv
     volumes:
-    - ${PHP_APACHE_VOLUMES_SRC:-./config/php_cli-src}:/srv:rw${MOUNT_OPTIONS}
-    - ${PHP_APACHE_VOLUMES_WWW:-./config/php_apache-www}:/var/www:rw${MOUNT_OPTIONS}
+    - ${PHP_APACHE_VOLUMES_SRC:-../hub/official/php_apache/src}:/srv:rw${MOUNT_OPTIONS}
+    - ${PHP_APACHE_VOLUMES_HTML:-./hub/official/php_apache/html}:/var/www/html:rw${MOUNT_OPTIONS}
     ports:
     - "${PHP_APACHE_PORT_HTTP:-80}:80"
 

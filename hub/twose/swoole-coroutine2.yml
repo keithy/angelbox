@@ -3,16 +3,16 @@
 # - but it may not have all of the extensions available out of the box
 
 version: '3.1'
+services:
   swoole2:
-    image: ${SWOOLE_IMAGE:-twosee/swoole-coroutine}
+    image: ${SWOOLE2_IMAGE:-twosee/swoole-coroutine}
+    environment:
+      ANGEL: ${ANGEL}
+      SWOOLE_PORT: ${SWOOLE2_ENVIRONMENT_SWOOLE_PORT:-6000}
     working_dir: /srv
     volumes:
-      - ${SWOOLE_VOLUMES_SRC:-./config/swoole-src}:/srv:rw${MOUNT_OPTIONS}
-    depends_on:
-      - mysql
-    environment:
-      SWOOLE_PORT: ${SWOOLE2_ENVIRONMENT_SWOOLE_PORT:-6000} 
-    command: php /srv/server.php start   
+    - ${SWOOLE2_VOLUMES_SRC:-./hub/twose/swoole-coroutine2/src}:/srv:rw${MOUNT_OPTIONS}
+    command: php /srv/server.php start
     restart: always
 
 # OPTIONS

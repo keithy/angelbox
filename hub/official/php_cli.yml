@@ -7,13 +7,15 @@ version: '3.1'
 services:
   php_cli:
     image: ${PHP_CLI_IMAGE:-php:cli-alpine}
+    environment:
+      ANGEL: ${ANGEL}
     command:
     - php
     - ${PHP_CLI_COMMAND_SCRIPT:-./version.php}
     working_dir: /srv
     volumes:
-    - ${PHP_CLI_VOLUMES_SRC:-./config/php_cli-src}:/srv:rw${MOUNT_OPTIONS}
-    
+    - ${PHP_CLI_VOLUMES_SRC:-./hub/official/php_cli/src}:/srv:rw${MOUNT_OPTIONS}
+
 # OPTIONS
 # PHP_CLI_IMAGE=php:cli-alpine
 # PHP_CLI_IMAGE=php:7.3-cli-alpine

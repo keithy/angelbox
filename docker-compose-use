@@ -1,29 +1,35 @@
 #!/bin/env bash
 # Run this preprocessor when the configuration changes to
 # regenerate the .env file for docker-compose
+# 
+# 1) cd to the directory where your configuration files are.
+# 2) Invoke the specific `docker-compose-use` that belongs to your Angelbox instance
+#       you may have more than one!
 
-set -ue
+set -uex
+
+ANGELBOX_DIR=$(readlink -f "${BASH_SOURCE[0]%/*}")
 
 # Parameter 1 : The source *.env file (comments and blank lines allowed)
-SOURCE_ENV="${1:-angelbox.env}"
+SERVICES="${1:-angelbox.env}"
 
 # Parameter 2 : A second source *.env file providing server specific environment values
-SERVER_ENV="${2:-/etc/angelbox/server.env}"
+VALUES="${2:-/etc/angelbox/server.env}"
 
 # Parameter 3 : The output file (default .env) - for testing
-out="${3:-.env}"
+out="${3:-$ANGELBOX_DIR/.env}"
 
 # Temporary files
 rand=$RANDOM
-tmpA="/tmp/${out}${rand}a"
-tmpB="/tmp/${out}${rand}b"
-tmpC="/tmp/${out}${rand}c"
+tmpA="/tmp/dcu-${rand}a"
+tmpB="/tmp/dcu-${rand}b"
+tmpC="/tmp/dcu-${rand}c"
 
 #Header
-echo "##From: $SOURCE_ENV" > "$tmpA"
+echo "##From: $SERVICES" > "$tmpA"
 
 # Step 1. Whitespace is trimmed
-sed -E 's/^ *//;s/ *$//' "$SOURCE_ENV" >> "$tmpA"
+sed -E 's/^ *//;s/ *$//' "$SERVICES" >> "$tmpA"
 
 # Step 2. Lines with a single '#' are removed completely)
 # This allows commenting to work within a series of \ separated lines
@@ -39,7 +45,7 @@ grep . "$tmpB" > "$tmpA"
 awk '{if (sub(/\\$/,"")) printf "%s", $0; else print $0}' "$tmpA" > "${out}"
 
 # Append additional overriding environment variables
-[[ -f "$SERVER_ENV" ]] && echo "##From: $SERVER_ENV" >> "${out}"
-[[ -f "$SERVER_ENV" ]] && cat "$SERVER_ENV" >> "${out}"
+echo "##From: $VALUES" >> "${out}"
+cat "$VALUES" >> "${out}"
  
-echo "Set ${PWD}/${out}" 2>&1
+echo "Set ${out}" 2>&1

@@ -3,4 +3,4 @@ version: '3.1'
 services:
   redis:
     volumes:
-      - ${REDIS_VOLUMES_CONF:-./config/redis.conf}:/usr/local/etc/redis/redis.conf
+      - ${REDIS_VOLUMES_CONF:-./hub/official/redis/redis.conf}:/usr/local/etc/redis/redis.conf

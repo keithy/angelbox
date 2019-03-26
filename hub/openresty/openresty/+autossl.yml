@@ -15,6 +15,10 @@ services:
 
 # OTHER OPTIONS
 #
-# RESTY_IMAGE:-valian/docker-nginx-auto-ssl
+# RESTY_image:-valian/docker-nginx-auto-ssl
+    environment:
+      ANGEL: ${ANGEL}
+    environment:
+      ANGEL: ${ANGEL}
 # RESTY_IMAGE=registry.gitlab.com/keithy/angelbox/openresty-no-sse4.2_autossl:alpine-fat
 

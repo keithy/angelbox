@@ -7,10 +7,12 @@ version: '3.1'
 services:
   php_fpm:
     image: ${PHP_FPM_IMAGE:-php:fpm-alpine}
+    environment:
+      ANGEL: ${ANGEL}
     working_dir: /srv
     volumes:
-    - ${PHP_FPM_VOLUMES_SRC:-./config/php_cli-src}:/srv:rw${MOUNT_OPTIONS}
-    - ${PHP_FPM_VOLUMES_WWW:-./config/php_fpm-www}:/var/www:rw${MOUNT_OPTIONS}
+    - ${PHP_FPM_VOLUMES_SRC:-./hub/official/php_fpm/src}:/srv:rw${MOUNT_OPTIONS}
+    - ${PHP_FPM_VOLUMES_HTML:-./hub/official/php_fpm/html}:/var/www/html:rw${MOUNT_OPTIONS}
 
 # OPTIONS
 # PHP_FPM_IMAGE=php:fpm

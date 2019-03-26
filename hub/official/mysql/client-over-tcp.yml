@@ -12,6 +12,8 @@ services:
     depends_on:
       - mysql
     image: ${MYSQL_IMAGE:-mysql:5.7}
+    environment:
+      ANGEL: ${ANGEL}
     container_name: ${MYSQL_CONTAINER_NAME:-mysql}_cli
     uid: ${MYSQL_UID:-888}:0
      # a place to put the root password when it changes
