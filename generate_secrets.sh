@@ -3,12 +3,14 @@
 # file implementation
 set -x
 
+cd $(readlink -f "${BASH_SOURCE[0]%/*}")
+
 sudo echo "Authorize Sudo" || exit
 
 # Obtain the location of the secrets set in $SECRETS
 source .env
 
-[ ! -d "$SECRETS" ] && echo "Secrets directory not found: $SECRETS" && exit
+[ ! -d "$SECRETS" ] && echo "Creating Secrets Directory: $SECRETS" && mkdir -p "$SECRETS"
 [ -f "$SECRETS/mysql_root_pass" ] && echo "Secrets Already Defined" && exit
 cd "$SECRETS"
 
@@ -25,17 +27,29 @@ openssl rand -base64 12 > mysql_manager_pass
 md5sum * > .md5sums
 
 # Lockdown permissions
-chmod -R u+r,a-w,o-rx "$SECRETS"
-chmod o+x,g+s "$SECRETS"
-chmod o+r "$SECRETS/.md5sums"
+chmod -R u+r,a-w,o-rx .
+chmod o+x,g+s .
+chmod o+r ./.md5sums
 
 # Protect even from superusers/root
-sudo chattr +i * 
+# ISSUE:
+# Docker bug - this prevents secrets from working?
+# sudo chattr +i * 
 
 cd -
 echo "Secrets created and locked-down (read-only)"
-echo "Backup with:"
-echo "  sudo cp -R $SECRETS $SECRETS.backup"
+
+if [[ -n "$SECRETS_BACKUP_LOCATION" ]]; then
+  backup="$SECRETS_BACKUP_LOCATION/${CODE_RELEASE}/${DEPLOYMENT_STATUS}"
+  sudo mkdir -p "$backup"
+  sudo cp -R "$SECRETS" "$backup"
+
+  echo "Backed up to: $backup"
+fi
+
+sudo chown 999:0 mysql_root_pass.cnf
+sudo chown 999:0 mysql_manager_pass
+sudo chown 999:0 mysql_root_pass.cnf
 
 #docker swarm implementation
 

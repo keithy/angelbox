@@ -6,18 +6,34 @@
 # 2) Invoke the specific `docker-compose-use` that belongs to your Angelbox instance
 #       you may have more than one!
 
-set -uex
+set -ue
 
+# Environment Variable 
+[[ ! -f "$SERVER_ENV_FILE" ]] && echo "$SERVER_ENV_FILE is missing" && exit
+
+# Command
 ANGELBOX_DIR=$(readlink -f "${BASH_SOURCE[0]%/*}")
 
-# Parameter 1 : The source *.env file (comments and blank lines allowed)
+# Argument $1 : The source *.env file (comments and blank lines allowed)
+
 SERVICES="${1:-angelbox.env}"
 
-# Parameter 2 : A second source *.env file providing server specific environment values
+# Argument $2 : A second source *.env file providing server specific environment values
 VALUES="${2:-/etc/angelbox/server.env}"
 
-# Parameter 3 : The output file (default .env) - for testing
+# Argument $3 : The output file (default .env) - for testing
 out="${3:-$ANGELBOX_DIR/.env}"
+
+echo "######################################################################" >> ${out}
+# Append servers OWN environment variables
+
+echo "## From: $SERVER_ENV_FILE" > "${out}"
+cat "$SERVER_ENV_FILE" >> "${out}"
+
+echo "######################################################################" >> ${out}
+# Process services definition file
+
+echo "## From: $SERVICES" >> "${out}"
 
 # Temporary files
 rand=$RANDOM
@@ -25,11 +41,8 @@ tmpA="/tmp/dcu-${rand}a"
 tmpB="/tmp/dcu-${rand}b"
 tmpC="/tmp/dcu-${rand}c"
 
-#Header
-echo "##From: $SERVICES" > "$tmpA"
-
 # Step 1. Whitespace is trimmed
-sed -E 's/^ *//;s/ *$//' "$SERVICES" >> "$tmpA"
+sed -E 's/^ *//;s/ *$//' "$SERVICES" > "$tmpA"
 
 # Step 2. Lines with a single '#' are removed completely)
 # This allows commenting to work within a series of \ separated lines
@@ -42,10 +55,12 @@ grep -vE "^#([^#]|$)" "$tmpA" > "$tmpB"
 grep . "$tmpB" > "$tmpA"
 
 # Step 3. Lines ending in \ are concatenated
-awk '{if (sub(/\\$/,"")) printf "%s", $0; else print $0}' "$tmpA" > "${out}"
+awk '{if (sub(/\\$/,"")) printf "%s", $0; else print $0}' "$tmpA" >> "${out}"
 
+echo "######################################################################" >> ${out}
 # Append additional overriding environment variables
-echo "##From: $VALUES" >> "${out}"
+
+echo "## From: $VALUES" >> "${out}"
 cat "$VALUES" >> "${out}"
  
 echo "Set ${out}" 2>&1

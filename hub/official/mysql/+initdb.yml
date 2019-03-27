@@ -1,0 +1,6 @@
+version: '3.1'
+
+services:
+  mysql:
+    volumes:
+    - ${MYSQL_VOLUMES_INITDB_D:-./hub/official/mysql/initdb.d}:/docker-entrypoint-initdb.d:ro${MOUNT_OPTIONS}

@@ -11,7 +11,6 @@ services:
     volumes:
     # data directory includes the socket
     - ${MYSQL_VOLUMES_DATADIR:-db}:/var/lib/mysql:rw${MOUNT_OPTIONS}
-    - ${MYSQL_VOLUMES_DUMPS:-./hub/official/mysql/dumps}:/srv
     entrypoint:
     - mysql
     - --defaults-extra-file=/run/secrets/mysql_root_pass.cnf

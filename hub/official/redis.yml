@@ -9,8 +9,9 @@ services:
     image: redis:alpine
     environment:
       ANGEL: ${ANGEL}
-      REDIS_PASSWORD: ${REDIS_ENVIRONMENT_REDIS_PASSWORD:-password}
-    command: redis-server --appendonly yes
+    command: >
+      --appendonly ${REDIS_COMMAND_APPENDONLY:-yes}
     volumes:
     - redis:/data:rw${MOUNT_OPTIONS}
     restart: always
+
