@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/bin/bash
 
 [[ -z "$3" ]] && echo " Parameter 1: [php_swoole|php_mysql|...] - BUILD_ENV configuration " && exit
 [[ -z "$3" ]] && echo " Parameter 2: [3.8|3.9]                  - alpine version " && exit

@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/bin/bash
 # Run this preprocessor when the configuration changes to
 # regenerate the .env file for docker-compose
 # 

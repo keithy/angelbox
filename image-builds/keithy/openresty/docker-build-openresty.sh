@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/bin/bash
 
 NAME="openresty"
 REPO="${REPO:-registry.gitlab.com/keithy/angelbox}"

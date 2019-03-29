@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/bin/bash
 
 TAG="registry.gitlab.com/keithy/angelbox/openresty-no-sse4.2_autossl:alpine-fat"
 
