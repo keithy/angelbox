@@ -14,6 +14,9 @@ echo "BUILD_CONFIG: $BUILD_CONFIG"
 echo "ALPINE_VERS: [$ALPINE_VERS]"
 echo "PHP_VERS: [$PHP_VERS]"
 
+# FUNCTIONS
+source /build/functions.sh
+
 # CONSTANTS & SOURCES
 cat "$DIR/urls.sh"
 source "$DIR/urls.sh"
@@ -142,7 +145,6 @@ done
 # https://github.com/codecasts/php-alpine/issues/68
 [[ -f /etc/php7/conf.d/00_ds.ini ]] && mv /etc/php7/conf.d/00_ds.ini /etc/php7/conf.d/01_ds.ini
 
-
 # To enable installation from pecl
 # temporarily install packages necessary for compilation
 if [ -n "$deps" ]; then
@@ -202,20 +204,6 @@ fi
 #Timezone
 echo "${TIMEZONE:-UTC}" > /etc/timezone 
 
-echo "Cleaning up.."
-
-#For some reason php-dev cant be a sub-package within .build-dependencies
-#so we add and remove it explicitly
-apk del .build-dependencies || true 
-apk del php-dev || true
-
-rm -rf /tmp/*
-rm -rf /var/cache/apk/*
-rm /usr/lib/php7/modules/*.a || true
-#rm -rf /usr/lib/php7/build/*
-rm -rf /build
-rm -rf /tmp/pear ~/.pearrc || true
-
-
+cp "$DIR/clean-apk.sh" "/build/CLEAN.sh"
 
 

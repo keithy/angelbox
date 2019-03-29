@@ -8,7 +8,7 @@
 
 for actions; do true; done
 
-[[ "$actions" == "$4" ]] && X_TAG="" || X_TAG="-$4"
+[[ "$actions" == "$5" ]] && X_TAG="-$4" || X_TAG="" 
 
 # If the php version is "latest" or includes an update component, build from sources, 
 # otherwise use published packages.
@@ -16,6 +16,7 @@ PHP_VERS="$3"
 ALP_VERS="$2"
 NAME="$1"
 
+#latest finds the latest version of PHP available for download
 case "$3" in 
   	latest)
        json=$(curl -sL "https://www.php.net/releases/?json&max=1&version=7")
@@ -53,5 +54,4 @@ TAG="$REPO/${NAME}:alp${ALP_VERS}-php${PHP_VERS}${X_TAG}"
 [[ "$actions" == *tag* ]] && echo "$TAG"
 
 exit 0
-
 

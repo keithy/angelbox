@@ -1,0 +1,9 @@
+/etc/angelbox/server.env: line 11: syntax error near unexpected token `('
+/etc/angelbox/server.env: line 11: `ANGEL_OS=Fedora29(atomic-host)'
+
+Servers OWN settings: /etc/angelbox/server.env
+Services composition: /var/home/eatbits/latest/config/latest-v1.env
+Server settings file: /var/home/eatbits/latest/config/host-atomic.flat+development.env
+
+../../angelbox/docker-compose-use ./latest-v1.env ./host-atomic.flat+development.env 
+Set /var/home/eatbits/angelbox/.env

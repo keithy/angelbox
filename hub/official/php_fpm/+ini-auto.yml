@@ -1,0 +1,6 @@
+version: '3.1'
+
+services:
+  php_fpm:
+    command:
+    - -c /usr/local/etc/php/php.ini-${ANGEL_STATUS:-production}

@@ -1,5 +1,7 @@
 #!/bin/env sh
 
+source /etc/profile
+
 if [ -n "$@" ]; then
   exec "$@"
 fi

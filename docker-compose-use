@@ -64,3 +64,23 @@ echo "## From: $VALUES" >> "${out}"
 cat "$VALUES" >> "${out}"
  
 echo "Set ${out}" 2>&1
+
+read_var() {
+    VAR=$(grep $1 $2 | xargs)
+    IFS="=" read -ra VAR <<< "$VAR"
+    echo ${VAR[1]}
+}
+
+
+echo "## From: ANGEL" >> "${out}"
+
+printf "ANGEL=" >> ${out}
+printf "%s " $(sed -n 's/^ANGEL_\(.*\)/\1/pg' "$SERVER_ENV_FILE") >> ${out}
+printf "%s " $(sed -n 's/^ANGEL_\(.*\)/\1/pg' "$SERVICES") >> ${out}
+printf "%s " $(sed -n 's/^ANGEL_\(.*\)/\1/pg' "$VALUES") >> ${out}
+	
+
+ 
+
+
+

@@ -6,19 +6,22 @@ volumes:
 
 services:
   resty:
-    image: ${RESTY_IMAGE:-valian/docker-nginx-auto-ssl}
+    image: ${RESTY_IMAGE_AUTOSSL:-valian/docker-nginx-auto-ssl}
     volumes:
-    - ${RESTY_CERTIFICATES:-certificates}:/etc/resty-auto-ssl:rw${MOUNT_OPTIONS}
+    - ${RESTY_VOLUMES_CERTIFICATES:-certificates}:/etc/resty-auto-ssl:rw${MOUNT_OPTIONS}
+    entrypoint:
+    - ./entrypoint_autossl.sh
     environment:
-      ALLOWED_DOMAINS: $RESTY_ENVIRONMENT_ALLOWED_DOMAINS
-      SITES: $RESTY_ENVIRONMENT_SITES
+      ANGEL: ${ANGEL}
+      ALLOWED_DOMAINS: ${RESTY_ENVIRONMENT_ALLOWED_DOMAINS:-.*}
+      SITES: ${RESTY_ENVIRONMENT_SITES}
+      FORCE_HTTPS: ${RESTY_ENVIRONMENT_FORCE_HTTPS:-true}
 
-# OTHER OPTIONS
+# OPTIONS
 #
-# RESTY_image:-valian/docker-nginx-auto-ssl
-    environment:
-      ANGEL: ${ANGEL}
-    environment:
-      ANGEL: ${ANGEL}
-# RESTY_IMAGE=registry.gitlab.com/keithy/angelbox/openresty-no-sse4.2_autossl:alpine-fat
+# RESTY_IMAGE_AUTOSSL=valian/docker-nginx-auto-ssl
+# RESTY_IMAGE_AUTOSSL=registry.gitlab.com/keithy/angelbox/openresty:alpine3.8-no-sse4.2-fat_autossl
+# RESTY_IMAGE_AUTOSSL=registry.gitlab.com/keithy/angelbox/openresty:alpine3.8-no-sse4.2_autossl
 
+#RESTY_ENVIRONMENT_ALLOWED_DOMAINS=serve.homeunix.com,test.serve.homeunix.com
+#RESTY_ENVIRONMENT_SITES=serve.homeunix.com=php_fpm:9000,test.serve.homeunix.com=php_fpm2:9001

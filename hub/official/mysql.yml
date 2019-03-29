@@ -8,7 +8,7 @@ services:
   mysql:
 #    entrypoint: ["sh", "-c", "sleep 2073600"]
     image: ${MYSQL_IMAGE:-mysql:5.7}
-    container_name: ${MYSQL_CONTAINER_NAME:-mysql}
+#    container_name: ${MYSQL_CONTAINER_NAME:-mysql}
     # Named mysql permanent data directory
     volumes:
     - ${MYSQL_VOLUMES_DATADIR:-db}:/var/lib/mysql:rw${MOUNT_OPTIONS}
@@ -36,6 +36,8 @@ services:
     - --init-file=${MYSQL_COMMAND_INIT_FILE:-/dev/null}
     restart: always
 
+# ISSUE synchonize the user name/id with the host.
+#
 # Example Options (default=["3306:3306"])
 # MYSQL_PORT=3307
 # MYSQL_PORT=127.0.0.1:3306

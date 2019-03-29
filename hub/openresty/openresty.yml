@@ -6,12 +6,9 @@ services:
     environment:
       ANGEL: ${ANGEL}
 #   command: [nginx-debug, '-g', 'daemon off;'] # optional
-    ports:
-    - "${RESTY_PORTS_80:-80}:80"
-    - "${RESTY_PORTS_443:-443}:443"
-    volumes:
-    - ${RESTY_VOLUMES_CONF_D:-./hub/openresty/openresty/conf.d}:/etc/nginx/conf.d:rw${MOUNT_OPTIONS}
-    restart: always
+#    volumes:
+#    - ${RESTY_VOLUMES_CONF_D:-./hub/openresty/openresty/conf.d}:/etc/nginx/conf.d:rw${MOUNT_OPTIONS}
+#    restart: always
 
 # OpenResty Options https://hub.docker.com/r/openresty/openresty/
 
