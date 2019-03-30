@@ -31,8 +31,8 @@ alias ext-configure="docker-php-ext-configure"
 alias ext-dci="docker-php-ext-download-configure-install" # extra utility
 
 # CONSTANTS & SOURCES
-cat "/build/alpine-apk/urls.sh"
-source "/build/alpine-apk/urls.sh"
+cat "/build/alpine-src/urls.sh"
+source "/build/alpine-src/urls.sh"
 # Values and extensions selection
 source "$BUILD_ENV"
 

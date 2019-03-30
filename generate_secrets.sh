@@ -1,28 +1,52 @@
 #!/bin/bash
 
+# This script generates a default set of secrets that angelbox can use for all of
+# the servies that use them. This only needs to be run once, following installation.
+#
+# It will only re-generate secrets that are missing so will not overwrite existing files
+# and this script can be safely re-run if a secret has been deleted or is missing.
+
 # file implementation
 set -x
 
 cd $(readlink -f "${BASH_SOURCE[0]%/*}")
 
-sudo echo "Authorize Sudo" || exit
+sudo echo "Sudo authorization needed" || exit
 
 # Obtain the location of the secrets set in $SECRETS
 source .env
 
 [ ! -d "$SECRETS" ] && echo "Creating Secrets Directory: $SECRETS" && mkdir -p "$SECRETS"
-[ -f "$SECRETS/mysql_root_pass" ] && echo "Secrets Already Defined" && exit
 cd "$SECRETS"
 
-#mysql_root_pass
-openssl rand -base64 12 > mysql_root_pass
+if [ ! -f "$SECRETS/mysql_root_pass" ]; then
 
-#mysql_root_pass.cnf
-printf "[client]\npassword=\"$(cat mysql_root_pass)\"\n" > mysql_root_pass.cnf
+  #mysql_root_pass
+  openssl rand -base64 12 > mysql_root_pass
+  sudo chown 999:0 mysql_root_pass
+  
+  #mysql_root_pass.cnf
+  printf "[client]\npassword=\"$(cat mysql_root_pass)\"\n" > mysql_root_pass.cnf
+  chown 999:0 mysql_root_pass.cnf
+  
+fi
 
-#mysql_manager_pass (initial user)
-openssl rand -base64 12 > mysql_manager_pass
+if [ ! -f "$SECRETS/mysql_manager_pass" ]; then
 
+  #mysql_manager_pass (initial user)
+  openssl rand -base64 12 > mysql_manager_pass
+  sudo chown 999:0 mysql_manager_pass
+
+fi
+
+if [ ! -f "$SECRETS/redis_password" ]; then
+
+  #mysql_manager_pass (initial user)
+  openssl rand -base64 12 > mysql_manager_pass
+  sudo chown 999:0 mysql_manager_pass
+
+fi
+ 
 # checksum for external tool to be able to see if this directory has been changed
 md5sum * > .md5sums
 
@@ -33,7 +57,7 @@ chmod o+r ./.md5sums
 
 # Protect even from superusers/root
 # ISSUE:
-# Docker bug - this prevents secrets from working?
+# Docker bug - this prevents secrets from working at all?
 # sudo chattr +i * 
 
 cd -
@@ -46,11 +70,7 @@ if [[ -n "$SECRETS_BACKUP_LOCATION" ]]; then
 
   echo "Backed up to: $backup"
 fi
-
-sudo chown 999:0 mysql_root_pass.cnf
-sudo chown 999:0 mysql_manager_pass
-sudo chown 999:0 mysql_root_pass.cnf
-
+ 
 #docker swarm implementation
 
 # openssl rand -base64 12 > /tmp/secret
