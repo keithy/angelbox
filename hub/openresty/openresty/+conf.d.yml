@@ -4,4 +4,4 @@ services:
   resty:
     volumes:
       - ${RESTY_VOLUMES_CONF_D:-./hub/openresty/openresty/conf.d}:/etc/nginx/conf.d
-    restart: always
+

@@ -101,6 +101,7 @@ ENV PATH
 cp /build/conf/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 mkdir -p /etc/nginx/conf.d
 cp /build/conf/nginx.vh.default.conf /etc/nginx/conf.d/default.conf
+cp /build/html/* /usr/local/openresty/nginx/html
 
 #Timezone
 echo "${TIMEZONE:-UTC}" > /etc/timezone 
