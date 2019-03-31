@@ -1,0 +1,13 @@
+version: '3.1'
+
+services:
+  php_apache:
+    environment:
+      DEVELOPER_MATCH_EXPR: "-R '${PHP_APACHE_ENVIRONMENT_DEVELOPER_IP:-}' || -R '${MYIP}'"
+      DEVELOPER_ALLOWED: .${PHP_APACHE_ENVIRONMENT_DEVELOPER_ALLOWED:-}.
+    volumes:
+# In php_apache env and setenvif are already loaded
+#    - ./hub/official/php_apache/etc/mods-available/setenvif.load:/etc/apache2/mods-enabled/setenvif.load:ro${MOUNT_OPTIONS}
+#    - ./hub/official/php_apache/etc/mods-available/env.load:/etc/apache2/mods-enabled/env.load:ro${MOUNT_OPTIONS}
+    - ./hub/official/php_apache/conf/+developer_ip.conf:/etc/apache2/conf-enabled/+developer_ip.conf:ro${MOUNT_OPTIONS}
+

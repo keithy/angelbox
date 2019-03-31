@@ -1,3 +1,11 @@
+# We mount our apache2.conf
+# This has very slight difference according to how modules are loaded
+# An extra directory layer is allowed (for usage see +mod_rewrite.yml)
+#
+# IncludeOptional mods-enabled/*.load
+# IncludeOptional mods-enabled/*/*.load
+
+#
 version: '3.1'
 
 services:

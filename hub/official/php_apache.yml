@@ -22,3 +22,11 @@ services:
 # PHP_APACHE_IMAGE=php:7.2-apache-stretch
 # PHP_APACHE_IMAGE=php:7.1-apache-stretch
 # PHP_APACHE_IMAGE=php:7.1-apache-jessie
+# PHP_APACHE_IMAGE=registry.gitlab.com/keithy/angelbox/php:7-apache-mysqli
+
+# Useful
+#  dc up -d --force-recreate php_apache
+#  dc exec php_apache bash
+#  docker commit angelbox_php_apache_1 registry.gitlab.com/keithy/angelbox/php:7-apache-mysqli
+#  docker push registry.gitlab.com/keithy/angelbox/php:7-apache-mysqli
+

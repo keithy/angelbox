@@ -7,7 +7,6 @@ services:
     image: ${MYSQL_IMAGE:-mysql:5.7}
     environment:
       ANGEL: ${ANGEL}
-    container_name: ${MYSQL_CONTAINER_NAME:-mysql}_cli
     volumes:
     # data directory includes the socket
     - ${MYSQL_VOLUMES_DATADIR:-db}:/var/lib/mysql:rw${MOUNT_OPTIONS}

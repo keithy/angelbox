@@ -27,12 +27,14 @@ out="${3:-$ANGELBOX_DIR/.env}"
 echo "######################################################################" >> ${out}
 # Append servers OWN environment variables
 
-echo "## From: $SERVER_ENV_FILE" > "${out}"
+echo "SERVER_FILE=$SERVER_ENV_FILE" > "${out}"
+echo "## From: $SERVER_ENV_FILE" >> "${out}"
 cat "$SERVER_ENV_FILE" >> "${out}"
 
 echo "######################################################################" >> ${out}
 # Process services definition file
 
+echo "SERVICES_FILE=$SERVICES" >> "${out}"
 echo "## From: $SERVICES" >> "${out}"
 
 # Temporary files
@@ -60,25 +62,30 @@ awk '{if (sub(/\\$/,"")) printf "%s", $0; else print $0}' "$tmpA" >> "${out}"
 echo "######################################################################" >> ${out}
 # Append additional overriding environment variables
 
+echo "PARAMETERS_FILE=$VALUES" >> "${out}"
 echo "## From: $VALUES" >> "${out}"
+
 cat "$VALUES" >> "${out}"
- 
-echo "Set ${out}" 2>&1
 
-read_var() {
-    VAR=$(grep $1 $2 | xargs)
-    IFS="=" read -ra VAR <<< "$VAR"
-    echo ${VAR[1]}
-}
+echo "######################################################################" >> ${out}
 
-
-echo "## From: ANGEL" >> "${out}"
+echo "## From: ANGEL_<item>" >> ${out}
 
 printf "ANGEL=" >> ${out}
 printf "%s " $(sed -n 's/^ANGEL_\(.*\)/\1/pg' "$SERVER_ENV_FILE") >> ${out}
 printf "%s " $(sed -n 's/^ANGEL_\(.*\)/\1/pg' "$SERVICES") >> ${out}
 printf "%s " $(sed -n 's/^ANGEL_\(.*\)/\1/pg' "$VALUES") >> ${out}
+
+echo >> ${out}
+echo >> ${out}
+echo "## Miscellaneous" >> ${out}
+
+myip=$(curl -sL ipecho.net/plain)
+echo "MYIP=${myip}" >> ${out}
+
+## Report success
 	
+echo "Set ${out}" 2>&1
 
  
 
