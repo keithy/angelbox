@@ -1,0 +1,8 @@
+version: '3.1'
+
+services:
+  resty:
+    volumes:
+    - ${RESTY_VOLUMES_HTML:-../etc/resty-html-rw}:/usr/local/openresty/nginx/html:rw${MOUNT_OPTIONS}
+
+

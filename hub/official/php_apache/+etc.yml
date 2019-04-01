@@ -1,6 +1,0 @@
-version: '3.1'
-
-services:
-  php_apache:
-    volumes:
-    - ${PHP_APACHE_VOLUMES_ETC:-./hub/official/php_apache/etc}:/etc/apache2:rw${MOUNT_OPTIONS}

@@ -10,9 +10,6 @@ services:
     environment:
       ANGEL: ${ANGEL}
     working_dir: /srv
-    volumes:
-    - ${PHP_APACHE_VOLUMES_SRC:-./hub/official/php_apache/src}:/srv:rw${MOUNT_OPTIONS}
-    - ${PHP_APACHE_VOLUMES_HTML:-./hub/official/php_apache/html}:/var/www/html:rw${MOUNT_OPTIONS}
     ports:
     - "${PHP_APACHE_PORTS_HTTP:-80}:80"
 

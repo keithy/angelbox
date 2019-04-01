@@ -1,0 +1,6 @@
+version: '3.1'
+
+services:
+  mysql:
+    volumes:
+    - ${PHP_MYSQL_VOLUMES_SRV}:/srv:rw${MOUNT_OPTIONS}

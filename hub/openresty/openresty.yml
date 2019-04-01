@@ -5,9 +5,6 @@ services:
     image: ${RESTY_IMAGE:-openresty/openresty:alpine}
     environment:
       ANGEL: ${ANGEL}
-#   command: [nginx-debug, '-g', 'daemon off;'] # optional
-#    volumes:
-#    - ${RESTY_VOLUMES_CONF_D:-./hub/openresty/openresty/conf.d}:/etc/nginx/conf.d:rw${MOUNT_OPTIONS}
 #    restart: always
 
 # OpenResty Options https://hub.docker.com/r/openresty/openresty/

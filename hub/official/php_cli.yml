@@ -13,8 +13,6 @@ services:
     - php
     - ${PHP_CLI_COMMAND_SCRIPT:-./version.php}
     working_dir: /srv
-    volumes:
-    - ${PHP_CLI_VOLUMES_SRC:-./hub/official/php_cli/src}:/srv:rw${MOUNT_OPTIONS}
 
 # OPTIONS
 # PHP_CLI_IMAGE=php:cli-alpine

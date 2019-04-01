@@ -1,0 +1,6 @@
+version: '3.1'
+
+services:
+  php_apache:
+    volumes:
+    - ${PHP_FPM_VOLUMES_SRC:-./hub/official/php_fpm/src}:/srv:rw${MOUNT_OPTIONS}

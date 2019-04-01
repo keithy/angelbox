@@ -1,0 +1,8 @@
+# If you use this set it to your own sites-enabled folder.
+
+version: '3.1'
+
+services:
+  php_apache:
+    volumes:
+    - ${PHP_APACHE_VOLUMES_SITES_ENABLED}:/etc/apache2/sites-enabled:ro${MOUNT_OPTIONS}

@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
   php_apache:
-    image: ${PHP_APACHE_IMAGE:-registry.gitlab.com/keithy/angelbox/php_apache:php7_mysqli_xdebug}
+    image: ${PHP_APACHE_IMAGE:-registry.gitlab.com/keithy/angelbox/php_apache:php7_pdo_mysqli_xdebug}
     volumes:
     - ${PHP_APACHE_VOLUMES_XDEBUG_INI:-./hub/official/php_apache/conf/+xdebug.ini}:/usr/local/etc/php/conf.d/00-angelbox-xdebug.ini:ro${MOUNT_OPTIONS}
 
