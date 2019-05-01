@@ -1,0 +1,6 @@
+version: '3.1'
+
+services:
+  php_apache:
+    volumes:
+    - ${PHP_APACHE_VOLUMES_DATA:-../DATA}:/data:rw${MOUNT_OPTIONS}

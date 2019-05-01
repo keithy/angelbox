@@ -1,0 +1,10 @@
+version: '3.1'
+
+services:
+  php_apache:
+    environment:
+      DEVELOPER_MATCH_EXPR: "-R '${PHP_APACHE_ENVIRONMENT_DEVELOPER_IP:-192.168.0.0/16}' || -R '${MYIP}'"
+      DEVELOPER_ALLOWED: .${PHP_APACHE_ENVIRONMENT_DEVELOPER_ALLOWED:-}.
+    volumes:
+    - ./hub/official/php_apache/conf/+ip-gateway-developer.conf:/etc/apache2/conf-enabled/+ip-gateway-developer.conf:ro${MOUNT_OPTIONS}
+

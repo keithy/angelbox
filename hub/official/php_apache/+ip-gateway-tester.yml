@@ -1,0 +1,9 @@
+version: '3.1'
+
+services:
+  php_apache:
+    environment:
+      TESTER_MATCH_EXPR: "-R '${PHP_APACHE_ENVIRONMENT_TESTER_IP:-192.168.0.0/16}' || -R '${MYIP}'"
+      TESTER_ALLOWED: .${PHP_APACHE_ENVIRONMENT_TESTER_ALLOWED:-}.
+    volumes:
+    - ./hub/official/php_apache/conf/+ip-gateway-tester.conf:/etc/apache2/conf-enabled/+ip-gateway-tester.conf:ro${MOUNT_OPTIONS}

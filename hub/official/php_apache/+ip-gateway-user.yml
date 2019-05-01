@@ -1,0 +1,10 @@
+version: '3.1'
+
+services:
+  php_apache:
+    environment:
+      USER_MATCH_EXPR: "-R '${PHP_APACHE_ENVIRONMENT_USER_IP:-0.0.0.0/32}' || -R '${MYIP}'"
+      USER_ALLOWED: .${PHP_APACHE_ENVIRONMENT_USER_ALLOWED:-}.
+    volumes:
+    - ./hub/official/php_apache/conf/+ip-gateway-user.conf:/etc/apache2/conf-enabled/+ip-gateway-user.conf:ro${MOUNT_OPTIONS}
+

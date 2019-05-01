@@ -7,7 +7,6 @@ version: '3.1'
 services:
   php_fpm:
     image: ${PHP_FPM_IMAGE:-php:fpm-alpine}
-    container_name: fpm
     environment:
       ANGEL: ${ANGEL}
     working_dir: /srv
