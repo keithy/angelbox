@@ -8,32 +8,35 @@
 
 set -ue
 
-# Environment Variable 
-[[ ! -f "$SERVER_ENV_FILE" ]] && echo "$SERVER_ENV_FILE is missing" && exit
-
 # Command
 ANGELBOX_DIR=$(readlink -f "${BASH_SOURCE[0]%/*}")
 
 # Argument $1 : The source *.env file (comments and blank lines allowed)
-
 SERVICES="${1:-angelbox.env}"
 
 # Argument $2 : A second source *.env file providing server specific environment values
 VALUES="${2:-/etc/angelbox/server.env}"
 
-# Argument $3 : The output file (default .env) - for testing
-out="${3:-$ANGELBOX_DIR/.env}"
+# Environment variable allows alternative output file for testing
+out="${DCU_OUT:-$ANGELBOX_DIR/.env}"
+
+# Environment variable points to default server configuration file
+SERVER_ENV_FILE="${SERVER_ENV_FILE:-/etc/angelbox/server.env}"
+
+## Reset the output file
+cp /dev/null ${out}
+
+## Prepend servers own environment variables
+if [[ -f "${SERVER_ENV_FILE}" ]]; then
+	echo "######################################################################" >> ${out}
+	echo "SERVER_FILE=$SERVER_ENV_FILE" > "${out}"
+	echo "## From: $SERVER_ENV_FILE" >> "${out}"
+	cat "$SERVER_ENV_FILE" >> "${out}"
+fi
+
+## Process services definition file
 
 echo "######################################################################" >> ${out}
-# Append servers OWN environment variables
-
-echo "SERVER_FILE=$SERVER_ENV_FILE" > "${out}"
-echo "## From: $SERVER_ENV_FILE" >> "${out}"
-cat "$SERVER_ENV_FILE" >> "${out}"
-
-echo "######################################################################" >> ${out}
-# Process services definition file
-
 echo "SERVICES_FILE=$SERVICES" >> "${out}"
 echo "## From: $SERVICES" >> "${out}"
 
@@ -53,19 +56,20 @@ sed -E 's/^ *//;s/ *$//' "$SERVICES" > "$tmpA"
 
 grep -vE "^#([^#]|$)" "$tmpA" > "$tmpB"
 
-# Step 4. Remove Empty lines
+# Step 3. Remove Empty lines
 grep . "$tmpB" > "$tmpA"
 
-# Step 3. Lines ending in \ are concatenated
+# Step 4. Lines ending in \ are concatenated
 awk '{if (sub(/\\$/,"")) printf "%s", $0; else print $0}' "$tmpA" >> "${out}"
 
-echo "######################################################################" >> ${out}
-# Append additional overriding environment variables
+## Append additional environment variables
 
+echo "######################################################################" >> ${out}
 echo "PARAMETERS_FILE=$VALUES" >> "${out}"
 echo "## From: $VALUES" >> "${out}"
-
 cat "$VALUES" >> "${out}"
+
+## Append the ANGEL environment variable
 
 echo "######################################################################" >> ${out}
 
@@ -78,6 +82,9 @@ printf "%s " $(sed -n 's/^ANGEL_\(.*\)/\1/pg' "$VALUES") >> ${out}
 
 echo >> ${out}
 echo >> ${out}
+
+## Append miscellaneous items
+
 echo "## Miscellaneous" >> ${out}
 
 myip=$(curl -sL ipecho.net/plain)
@@ -87,7 +94,7 @@ echo "MYIP=${myip}" >> ${out}
 	
 echo "Set ${out}" 2>&1
 
- 
+set +ue
 
 
 
