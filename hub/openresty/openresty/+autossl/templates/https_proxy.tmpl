@@ -1,0 +1,40 @@
+# this configuration will be used for each server
+# specified using $SITES variable
+# more in README
+
+server {
+  # this is the internal Docker DNS, cache only for 30s
+  resolver 127.0.0.11 valid=30s;
+
+  listen 443 ssl http2;
+  server_name $SERVER_NAME;
+
+  include /etc/nginx/*.https.conf;
+
+  location / {
+  
+    set $upstream $SERVER_ENDPOINT;
+
+  
+    proxy_pass http://$upstream;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+  }
+ 
+} 
+ 
+ server {
+    listen 80;
+    server_name $SERVER_NAME;
+
+    index index.php;
+    root /srv/vhosts/$SERVER_NAME/public;
+   
+    include /etc/nginx/*.http.conf;
+}
+
+
+# References
+# https://sandro-keil.de/blog/let-nginx-start-if-upstream-host-is-unavailable-or-down/

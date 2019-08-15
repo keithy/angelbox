@@ -1,0 +1,8 @@
+version: '3.1'
+
+# Change in log level
+
+services:
+  php_fpm:
+    volumes:
+    - ./hub/official/php_fpm/conf/debug.conf:/usr/local/etc/php-fpm.d/debug.conf:ro

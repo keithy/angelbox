@@ -8,14 +8,16 @@ services:
   resty:
     image: ${RESTY_IMAGE_AUTOSSL:-valian/docker-nginx-auto-ssl}
     volumes:
-    - ${RESTY_VOLUMES_CERTIFICATES:-certificates}:/etc/resty-auto-ssl:rw${MOUNT_OPTIONS}
+    - ${RESTY_DIR_AUTOSSL:-./hub/openresty/openresty/+autossl}:/etc/autossl:ro
+    - ${RESTY_VOLUME_CERTIFICATES:-certificates}:/etc/resty-auto-ssl:rw${MOUNT_OPTIONS}
+    - ./hub/openresty/openresty/+autossl/challenge-response.http.conf:/etc/nginx/autossl-challenge-response.http.conf:ro
+    - ./hub/openresty/openresty/+autossl/autossl_certs.https.conf:/etc/nginx/autossl_certs.https.conf:ro
     entrypoint:
-    - ./entrypoint_autossl.sh
+    - /etc/autossl/entrypoint.sh
+#    entrypoint: ["sh", "-c", "sleep 2073600"]
     environment:
-      ANGEL: ${ANGEL}
-      ALLOWED_DOMAINS: ${RESTY_ENVIRONMENT_ALLOWED_DOMAINS:-.*}
-      SITES: ${RESTY_ENVIRONMENT_SITES}
-      FORCE_HTTPS: ${RESTY_ENVIRONMENT_FORCE_HTTPS:-true}
+      ALLOWED_DOMAINS: ${RESTY_ALLOWED_DOMAINS:-.*}
+      SITES: ${RESTY_SITES:-}
 
 # OPTIONS
 #
@@ -23,5 +25,5 @@ services:
 # RESTY_IMAGE_AUTOSSL=registry.gitlab.com/keithy/angelbox/openresty:alpine3.8-no-sse4.2-fat_autossl
 # RESTY_IMAGE_AUTOSSL=registry.gitlab.com/keithy/angelbox/openresty:alpine3.8-no-sse4.2_autossl
 
-#RESTY_ENVIRONMENT_ALLOWED_DOMAINS=serve.homeunix.com,test.serve.homeunix.com
-#RESTY_ENVIRONMENT_SITES=serve.homeunix.com=php_fpm:9000,test.serve.homeunix.com=php_fpm2:9001
+#RESTY_ALLOWED_DOMAINS=serve.homeunix.com,test.serve.homeunix.com
+#RESTY_SITES=serve.homeunix.com=php_fpm:9000,test.serve.homeunix.com=php_fpm2:9001

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# Based on https://hub.docker.com/r/valian/docker-nginx-auto-ssl/dockerfile
+
 # FUNCTIONS
 source /build/functions.sh
 
@@ -31,7 +33,5 @@ openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 \
     
 openssl dhparam -out /usr/local/openresty/nginx/conf/dhparam.pem 2048 \
 
-mv /build/conf-autossl/nginx.conf /usr/local/openresty/nginx/conf/
-mv /build/conf-autossl/snippets/* /usr/local/openresty/nginx/conf/
-mv /build/conf-autossl/entrypoint_autossl.sh /entrypoint_autossl.sh
-
+cp /build/conf-autossl/snippets/* /usr/local/openresty/nginx/conf
+ 

@@ -1,0 +1,9 @@
+# Add a robots.txt response to all http and https servers
+
+version: '3.1'
+
+services:
+  resty:
+    volumes:
+      - ${RESTY_FILE_ROBOTS_HTTP_CONF:-./hub/openresty/openresty/angel/robots.http.conf}:/etc/nginx/robots.http.conf:ro
+      - ${RESTY_FILE_ROBOTS_HTTPS_CONF:-./hub/openresty/openresty/angel/robots.https.conf}:/etc/nginx/robots.https.conf:ro

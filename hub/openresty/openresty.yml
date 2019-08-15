@@ -3,9 +3,18 @@ version: '3.1'
 services:
   resty:
     image: ${RESTY_IMAGE:-openresty/openresty:alpine}
+    volumes:
+      - ${RESTY_DIR_ANGEL:-./hub/openresty/openresty/angel}:/etc/angel:ro
+    entrypoint:
+    - /etc/angel/entrypoint.sh
+    ports:
+    - "${RESTY_PORTS_HTTP:-80:80}"
+    - "${RESTY_PORTS_HTTPS:-443:443}"
     environment:
       ANGEL: ${ANGEL}
-#    restart: always
+      WORKER_PROCESSES: ${RESTY_WORKER_PROCESSES:-2}
+
+# restart: always
 
 # OpenResty Options https://hub.docker.com/r/openresty/openresty/
 

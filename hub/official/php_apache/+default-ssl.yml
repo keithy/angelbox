@@ -4,3 +4,6 @@ services:
   php_apache:
     volumes:
     - ${PHP_APACHE_VOLUMES_DEFAULT:-./hub/official/php_apache/etc-orig/sites-available/default-ssl.conf}:/etc/apache2/sites-enabled/default-ssl.conf:ro${MOUNT_OPTIONS}
+    ports:
+    - "${PHP_APACHE_PORTS_HTTPS:-443}:443"
+

@@ -13,7 +13,7 @@ services:
     volumes:
     - ${MYSQL_VOLUMES_DATADIR:-db}:/var/lib/mysql:rw${MOUNT_OPTIONS}
     # Create the initial MySQL database and user with these defaults
-    # (for initialization of the database see mariaDB.socker-client)
+    # (for initialization of the database see mariaDB.socket-client)
     # See https://hub.docker.com/_/mysql/ for more details.
     environment:
       ANGEL: ${ANGEL}
@@ -37,8 +37,10 @@ services:
     restart: always
 
 # ISSUE synchonize the user name/id with the host.
-#
+
+
 # Example Options (default=["3306:3306"])
+
 # MYSQL_PORT=3307
 # MYSQL_PORT=127.0.0.1:3306
 

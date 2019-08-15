@@ -94,6 +94,9 @@ echo "MYIP=${myip}" >> ${out}
 	
 echo "Set ${out}" 2>&1
 
+## Tidy Up
+
+rm /tmp/dcu-*
 set +ue
 
 

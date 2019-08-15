@@ -1,8 +1,13 @@
+# Set $RESTY_DIR_HTML for your default server pages
+# in the unlikely event that there is any need for the default server to have write access
+# to the html file tree
+# (the default set here is intended to be potentially useful out of the box)
+
 version: '3.1'
 
 services:
   resty:
     volumes:
-    - ${RESTY_VOLUMES_HTML:-../etc/resty-html-rw}:/usr/local/openresty/nginx/html:rw${MOUNT_OPTIONS}
+    - ${RESTY_DIR_HTML:-../SITES/resty_html}:/var/www/html:rw${MOUNT_OPTIONS}
 
 

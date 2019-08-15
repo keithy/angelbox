@@ -3,4 +3,4 @@ version: '3.1'
 services:
   php_fpm:
     command:
-    - --php-ini /usr/local/etc/php/php.ini-${PHP_FPM_COMMAND_INI:-production}
+    - --php-ini /usr/local/etc/php/php.ini-${PHP_FPM_COMMAND_INI:-development}

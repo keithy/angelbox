@@ -1,9 +1,0 @@
-version: '3.1'
-
-services:
-  resty:
-    volumes:
-    # ought to be mounted ro, autossl does envsubst on some config files in there, so rw it is!
-    - ${RESTY_VOLUMES_CONF:-./hub/openresty/openresty/conf}:/usr/local/openresty/nginx/conf:rw${MOUNT_OPTIONS}
-
-

@@ -12,21 +12,21 @@ of the important features are made customisable through variables.
 ## Docker-Compose-USE <composition.env>
 
 The script `docker-compose-use` creates a `.env` file for `docker-compose` to use.
-It processes a `my-services.env` file which you provide to define the 
+It processes a `composition.env` file which you provide to define the 
 composition - the list of services, and values for the variables. 
 
 ```
 #> docker-compose-use ./config-example/server.env
 ```
-where `./config-example/server.env` is:
+where `./config-example/server.env` is similar to:
 ```
 MYSQL_IMAGE=mariadb/10.4-bionic
 MYSQL_PORTS_3306=4000
 
-COMPOSE_FILE=common.yml:\
+COMPOSE_FILE=box-begin.yml:\
     hub/official/mysql.yml:\
     hub/official/mysql/+file-secrets.yml:\
-    common-end.yml
+    box-end.yml
 ```
 
 #### Conventions
@@ -35,7 +35,9 @@ COMPOSE_FILE=common.yml:\
 - Overrides are indicated by the `+` in the filename.
 - comments and blank lines are ignored.
 - Variables are named (strictly) according to their position in the `yaml` structure.
-
+	- Except Volumes is translated to VOLUME(named volume)/FILE/DIR
+	- And ENVIRONMNENT can be ommitted
+	
 ## Docker-Compose-USE <composition.env> <deployment.env>
 
 A second `env` file can be provided with additional values that relate to a specific

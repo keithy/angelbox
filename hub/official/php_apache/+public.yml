@@ -1,0 +1,13 @@
+# If your site follows the pattern of putting the document_root in __PROJECT__/public
+# this is a possible mounting strategy for you
+# The project is mounted at /var/www for access
+# the project is served from /var/www/html
+# the project files should also be available at /var/www/public
+
+version: '3.1'
+
+services:
+  php_apache:
+    volumes:
+    - ${PHP_APACHE_VOLUMES_WWW:-}:/var/www:rw${MOUNT_OPTIONS}
+    - ${PHP_APACHE_VOLUMES_WWW:-}/public:/var/www/html:rw${MOUNT_OPTIONS}

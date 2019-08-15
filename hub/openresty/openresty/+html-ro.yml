@@ -1,0 +1,15 @@
+# Overlay the default document root /var/www/html for the default server
+# Without this you get "welcome to OpenResty"
+# With this you get "Welcome to AngelBox and OpenResty"
+# Set $RESTY_DIR_HTML for your default server pages
+# (the default set here is not intended to be that useful
+# but it may provide a default - not a public server go away)
+
+version: '3.1'
+
+services:
+  resty:
+    volumes:
+    - ${RESTY_DIR_HTML:-./hub/openresty/openresty/html}:/var/www/html:ro${MOUNT_OPTIONS}
+
+

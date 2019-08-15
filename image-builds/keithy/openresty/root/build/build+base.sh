@@ -98,18 +98,19 @@ PATH=$PATH:/usr/local/openresty/bin
 
 ENV PATH
 
-cp /build/conf/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
-mkdir -p /etc/nginx/conf.d
-cp /build/conf/nginx.vh.default.conf /etc/nginx/conf.d/default.conf
-cp /build/html/* /usr/local/openresty/nginx/html
+mkdir -p /var/www/html || true
+mkdir -p /etc/nginx || true 
+cp -R /build/conf-base/* /usr/local/openresty/nginx/conf
+ 
+# entry point
+mv /usr/local/openresty/nginx/conf/entrypoint.sh /entrypoint.sh
 
 #Timezone
 echo "${TIMEZONE:-UTC}" > /etc/timezone 
 
 #ensure ownership
-mkdir -p /var/www/html
 chmod -R ug+w,g+s /var/www/html
-chown -R $UID:root /var/www/html /entrypoint.sh /etc/nginx /usr/local/openresty
+chown -R $UID:root /var/www/html /entrypoint.sh /etc/nginx /usr/local/openresty /srv
 
 #sudo setcap CAP_NET_BIND_SERVICE=+eip /path to nginx?
 

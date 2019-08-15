@@ -1,14 +1,9 @@
 # We mount our apache2.conf
 # This has very slight difference according to how modules are loaded
-# An extra directory layer is allowed (for usage see +mod_rewrite.yml)
-#
-# IncludeOptional mods-enabled/*.load
-# IncludeOptional mods-enabled/*/*.load
 
-#
 version: '3.1'
 
 services:
   php_apache:
     volumes:
-    - ${PHP_APACHE_VOLUMES_CONF:-./hub/official/php_apache/etc/apache2.conf}:/etc/apache2/apache2.conf:ro${MOUNT_OPTIONS}
+    - ${PHP_APACHE_VOLUMES_CONF:-./hub/official/php_apache/etc-orig/apache2.conf}:/etc/apache2/apache2.conf:ro${MOUNT_OPTIONS}

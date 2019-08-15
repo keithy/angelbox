@@ -1,10 +1,8 @@
 version: '3.1'
 
-# Change in log level needs to be done manually in php-fpm.conf
-# Uncomment for 'debug'
+# Change in log level available via +debug
 
 services:
   php_fpm:
     volumes:
-    - ./hub/official/php_fpm/conf/logs.conf:/usr/local/etc/php-fpm.d/logs.conf:ro${MOUNT_OPTIONS}
-#    - ./hub/official/php_fpm/conf/php-fpm.conf:/usr/local/etc/php-fpm.conf:ro${MOUNT_OPTIONS}
+    - ./hub/official/php_fpm/conf/logs.conf:/usr/local/etc/php-fpm.d/logs.conf:ro

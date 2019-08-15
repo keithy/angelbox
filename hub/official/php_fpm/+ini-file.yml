@@ -3,4 +3,4 @@ version: '3.1'
 services:
   php_fpm:
     volumes:
-    - ${PHP_FPM_VOLUMES_PHP_INI}:/usr/local/etc/php/php.ini
+    - ${PHP_FPM_FILE_PHP_INI}:/usr/local/etc/php/php.ini
