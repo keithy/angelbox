@@ -1,0 +1,319 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>AngelBox purpose &mdash; AngelBox 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Docker-Compose-Use" href="topics/docker-compose-use.html" />
+    <link rel="prev" title="Welcome to AngelBox!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> AngelBox
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">AngelBox purpose</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#target-platforms">Target Platforms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#why-did-i-build-this">Why did I build this?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#simplification-is-key">Simplification is Key</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building-from-sources">Building From Sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#angelbox-so-far">AngelBox So Far</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#automation-is-key">Automation is key</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#issues-with-docker-encountered">Issues with Docker encountered</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#angelbox-devilbox-redeemed">AngelBox … Devilbox redeemed</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="topics/docker-compose-use.html">Docker-Compose-Use</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AngelBox</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>AngelBox purpose</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/angelbox-purpose.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>AngelBox is working well for initial use cases,
+but must be considered <strong>pre-Alpha</strong> until tests and
+documentation are in place</p>
+</div>
+<div class="section" id="angelbox-purpose">
+<span id="id1"></span><h1>AngelBox purpose<a class="headerlink" href="#angelbox-purpose" title="Permalink to this headline">¶</a></h1>
+<p>AngelBox aims to provide a well crafted container based environment for <strong>any</strong> deployment purpose.
+This may include LAMP or MEAN stacks, xwiki, wordpress, laravel, or <strong>anything</strong> that may be found
+in the <strong>docker/container</strong> universe.</p>
+<p>Its main intention is to provide a simple framework <em>(i.e. structure and tools)</em>
+for <strong>you</strong> to create, share or adopt a well curated set of containers ready for
+your own <strong>production</strong> use.</p>
+<p>While <a class="reference external" href="http://devilbox.org/">Devilbox</a> focuses on getting the developer up and running quickly with a local environment.
+Angelbox focusses on providing a production ready platform, that may also be used for development,
+albeit remotely.</p>
+<p>AngelBox closes the gap between development and production,
+and is particularly designed for modern workflows whereby both release and beta code is made available
+to users and testers according to a continuous integration and release model.
+This model envisages multiple code-branches published to a production ready environment,
+with additional security measures to ensure that they only reach the intended audience.</p>
+<div class="section" id="target-platforms">
+<h2>Target Platforms<a class="headerlink" href="#target-platforms" title="Permalink to this headline">¶</a></h2>
+<p>The main goal is to support a few rock-steady deployment targets (container runtime environments),
+with the expectation that development can also be performed remotely.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In practice we actually use local development target servers,
+typically a bare metal Fedora Core OS Server running moby,
+and a small Rock64 arm based SBC running Ubuntu with docker</p>
+</div>
+</div>
+<div class="section" id="why-did-i-build-this">
+<h2>Why did I build this?<a class="headerlink" href="#why-did-i-build-this" title="Permalink to this headline">¶</a></h2>
+<p>Docker has created a great diversification, and with that lots of extra complexity.
+I created AngelBox in an effort to simplify and capture <strong>in code</strong>
+a knowledge-base of production-worthy best practices.</p>
+<p>When developers share their creations they often publish a <code class="code docutils literal notranslate"><span class="pre">docker-compose.yml</span></code> file to
+help the user get up and running, but this is rarely more than a tutorial set-up.</p>
+<p>AngelBox takes this to the next level, building on <code class="code docutils literal notranslate"><span class="pre">docker-compose</span></code> to provide
+production-ready services in a modular fashion.</p>
+</div>
+<div class="section" id="simplification-is-key">
+<h2>Simplification is Key<a class="headerlink" href="#simplification-is-key" title="Permalink to this headline">¶</a></h2>
+<p>AngelBox aims to take some basic simple principles and apply them across the board to get
+the best result for the least effort.</p>
+</div>
+<div class="section" id="building-from-sources">
+<h2>Building From Sources<a class="headerlink" href="#building-from-sources" title="Permalink to this headline">¶</a></h2>
+<p>Since production environments often have very specific requirements we do not shy away
+from building our own docker images from sources where this is useful.
+This knowledge is also captured herein.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Our bare metal server is showing its age and required a build of <em>Openresty</em> with a
+reduced CPU instruction set. Having gone to all of that trouble, AngelBox provides a
+structure within which to publish that knowledge.</p>
+</div>
+</div>
+<div class="section" id="angelbox-so-far">
+<h2>AngelBox So Far<a class="headerlink" href="#angelbox-so-far" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Deployed/Tested on Fedora Atomic Host(29)</p></li>
+<li><p>MariaDB / Mysql / Mysql_cli</p></li>
+<li><p>php_apache</p></li>
+<li><p>OpenResty - resty (with autossl/letsencrypt)</p></li>
+<li><p>php_fpm</p></li>
+</ul>
+</div>
+<div class="section" id="automation-is-key">
+<h2>Automation is key<a class="headerlink" href="#automation-is-key" title="Permalink to this headline">¶</a></h2>
+<p>Next up is to create a fully automated and generalized build infrastructure
+for all custom Docker images.</p>
+<p>The outcome <em>will be</em>:</p>
+<ul class="simple">
+<li><p>Docker images are generated and verified.</p></li>
+<li><p>Docker images have extensive CI tests.</p></li>
+<li><p>Docker images are automatically built, tested and updated every night and pushed on success</p></li>
+</ul>
+</div>
+<div class="section" id="issues-with-docker-encountered">
+<h2>Issues with Docker encountered<a class="headerlink" href="#issues-with-docker-encountered" title="Permalink to this headline">¶</a></h2>
+<p>One of the major issues encountered with Docker is the syncronization of file and
+directory permissions between local and Docker mounted directories.</p>
+<dl class="simple">
+<dt>cytopia writes:</dt><dd><p>This is due to the fact that the process of PHP or the web server usually run with a different
+<code class="docutils literal notranslate"><span class="pre">uid</span></code> and <code class="docutils literal notranslate"><span class="pre">gid</span></code> as the local user starting the Docker container. Whenever a new file is created
+from inside the container, it will happen with the <code class="docutils literal notranslate"><span class="pre">uid</span></code> of the process running inside the
+container, thus making it incompatible with your local user.</p>
+</dd>
+</dl>
+<p>This problem has been finally addressed in Devilbox, and may need to be carried over to AngelBox
+and you can read up on it in detail here: <a class="reference external" href="https://devilbox.readthedocs.io/en/latest/readings/syncronize-container-permissions.html#syncronize-container-permissions">syncronize_container_permissions</a>.</p>
+</div>
+<div class="section" id="angelbox-devilbox-redeemed">
+<h2>AngelBox … Devilbox redeemed<a class="headerlink" href="#angelbox-devilbox-redeemed" title="Permalink to this headline">¶</a></h2>
+<p>Devilbox is used on a daily basis and its developers are finding more and more edge
+cases that are being resolved. As technology also advance quickly, we all need to keep up.
+The next major milestones for Devilbox were listed as:</p>
+<ol class="arabic simple">
+<li><p>to modularize it for easier customization and provision of additional containers</p></li>
+<li><p>to harden it up for production usage</p></li>
+<li><p>workflows for deployments in a CI/CD landscape.</p></li>
+</ol>
+<p><strong>These are the present goals of AngelBox.</strong></p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="topics/docker-compose-use.html" class="btn btn-neutral float-right" title="Docker-Compose-Use" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to AngelBox!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Keithy
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
