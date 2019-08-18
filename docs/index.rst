@@ -6,7 +6,7 @@
 Welcome to AngelBox!
 ====================
 
-* Production quality re-imaginging of  `DevilBox <http://devilbox.org/>`_ 
+* Production quality re-imagining of  `DevilBox <http://devilbox.org/>`_ 
 * A framework for deploying compositions of docker images to production and staging servers.
 * A code-based learning hub for collating knowledge of practical container/docker usage 
 

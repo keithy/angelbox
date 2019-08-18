@@ -23,8 +23,9 @@
 # -- Project information -----------------------------------------------------
 
 project = 'AngelBox'
-copyright = '2019, Keithy'
-author = 'Keithy'
+copyright = '2019, Keithy@consultant.com'
+author = 'Keith'
+master_doc = 'index'
 
 # The full version, including alpha/beta/rc tags
 release = '0.1'

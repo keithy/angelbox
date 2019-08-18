@@ -10,12 +10,12 @@ AngelBox aims to provide a well crafted container based environment for **any** 
 This may include LAMP or MEAN stacks, xwiki, wordpress, laravel, or **anything** that may be found
 in the **docker/container** universe.
 
-Its main intention is to provide a simple framework *(i.e. structure and tools)* 
+The intention is to provide a simple framework *(i.e. structure and tools)* 
 for **you** to create, share or adopt a well curated set of containers ready for
 your own **production** use.
 
 While Devilbox_ focuses on getting the developer up and running quickly with a local environment. 
-Angelbox focusses on providing a production ready platform, that may also be used for development,
+Angelbox focuses on providing a production ready platform, that may also be used for development,
 albeit remotely. 
 
 AngelBox closes the gap between development and production, 
