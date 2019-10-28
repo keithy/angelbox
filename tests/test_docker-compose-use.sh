@@ -1,6 +1,10 @@
 #!/bin/sh
 
-cat > /tmp/dcu_fixture << 'END'
+# This simple script tests the raw action of docker-compose-use
+
+EXIT=1
+
+cat > /tmp/dcu_services << 'END'
 #Start
 # Comment
 
@@ -13,24 +17,39 @@ cat > /tmp/dcu_fixture << 'END'
 3
 END
 
-cat > /tmp/dcu_fixture2 << 'END'
+cat > /tmp/dcu_parameters_1 << 'END'
 #2nd file appended as is
-
 Appended
+END
+
+cat > /tmp/dcu_parameters_2 << 'END'
+#3rd file prepended as is
+Prepended
 END
 
 cat > /tmp/dcu_expected << 'END'
-##From: /tmp/dcu_fixture
+SERVER_FILE=/tmp/dcu_parameters_2
+#3rd file prepended as is
+Prepended
+######################################################################
+SERVICES_FILE=/tmp/dcu_services
 ## Output
 1 2 3
-##From: /tmp/dcu_fixture2
+######################################################################
+PARAMETERS_FILE=/tmp/dcu_parameters_1
 #2nd file appended as is
-
 Appended
 END
 
-../docker-compose-use /tmp/dcu_fixture /tmp/dcu_fixture2 dcu_output
 
-diff /tmp/dcu_expected dcu_output && echo "PASS"
+DCU_OUT=dcu_output ../docker-compose-use /tmp/dcu_services /tmp/dcu_parameters_1 /tmp/dcu_parameters_2
 
-rm /tmp/dcu_fixture /tmp/dcu_fixture2 /tmp/dcu_expected dcu_output
+diff /tmp/dcu_expected dcu_output && echo "PASS" && EXIT=0
+
+#echo "±±±"
+#cat dcu_output
+#echo "±±±"
+
+rm /tmp/dcu_services /tmp/dcu_parameters_1 /tmp/dcu_parameters_2 /tmp/dcu_expected dcu_output
+
+exit $EXIT
