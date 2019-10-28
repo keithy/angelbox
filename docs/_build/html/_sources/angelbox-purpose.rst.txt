@@ -6,17 +6,35 @@
 AngelBox purpose
 ****************
 
+On your journey to be the next "ebay", AngelBox is designed to be the first
+step, while in anticipation of your rapid rise to greatness, the final destination envisaged
+is the cloud-vendor-independent but very impressive, Red Hat _OpenShift™
+
+The intention is to provide a simple framework *(i.e. structure and tools)* 
+for **you** to create, share or adopt a well curated set of containers ready for
+your own **production** use.
+
+AngelBox is the new AMP/WAMP/MAMP for zero outlay, "local" development of a production ready system, 
+using the parallel deployment paradigm. 
+AngelBox enables you to create a fully deployed and secure cluster of services, 
+and use this for "local" development in parallel to deployed services.
+
+The starting point, is a small dedicated set of services that a developer selects
+and configures. Add an `angel` folder to your project, and AngelBox will create and
+manage for you a production ready set of services managed through `docker-compose`.
+
 AngelBox aims to provide a well crafted container based environment for **any** deployment purpose.
 This may include LAMP or MEAN stacks, xwiki, wordpress, laravel, or **anything** that may be found
 in the **docker/container** universe.
 
-Its main intention is to provide a simple framework *(i.e. structure and tools)* 
-for **you** to create, share or adopt a well curated set of containers ready for
-your own **production** use.
+DevilBox Redeemed
+=================
 
 While Devilbox_ focuses on getting the developer up and running quickly with a local environment. 
-Angelbox focusses on providing a production ready platform, that may also be used for development,
-albeit remotely. 
+Angelbox focuses on providing a production ready platform, that may also be used for development. 
+
+Parallel Deployment
+===================
 
 AngelBox closes the gap between development and production, 
 and is particularly designed for modern workflows whereby both release and beta code is made available
@@ -25,6 +43,7 @@ This model envisages multiple code-branches published to a production ready envi
 with additional security measures to ensure that they only reach the intended audience.
 
 .. _Devilbox: http://devilbox.org/
+.. _OpenShift: https://www.openshift.com/products/container-platform
 
 Target Platforms
 ================
@@ -34,8 +53,7 @@ with the expectation that development can also be performed remotely.
 .. note::
 
    In practice we actually use local development target servers,
-   typically a bare metal Fedora Core OS Server running moby,
-   and a small Rock64 arm based SBC running Ubuntu with docker
+   typically a bare metal Fedora Core OS Server.
 
 Why did I build this?
 =====================
@@ -49,6 +67,10 @@ help the user get up and running, but this is rarely more than a tutorial set-up
 
 AngelBox takes this to the next level, building on :code:`docker-compose` to provide 
 production-ready services in a modular fashion.
+
+Deploying to Fedora CoreOS, takes `docker-compose` to the max, and it is s simple step up to
+deployment with `docker swarm`. However, by this point it is probably time to start thinking about 
+using _OpenShift™ to manage the complexity.
 
 Simplification is Key
 =====================

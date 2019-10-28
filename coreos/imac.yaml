@@ -15,13 +15,31 @@ passwd:
         - wheel
         - plugdev
       shell: /bin/bash
+    - name: goss
+      ssh_authorized_keys:
+        - command = "goss" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG7mD9tPBt0F1QViMXdyC5eBlXPg4uTIVanU9a5kCpbT keith@samson.flat
+      home_dir: /home/goss
+      no_create_home: false
+      groups:
+        - wheel
+      shell: /bin/bash
 storage:
   files:
-    - path: /opt/goss.yaml
+    - path: /home/goss/goss.yaml
       contents:
         inline: |
           Hello, world!
       mode: 0644
+      user:
+        id: 500
+      group:
+        id: 501
+    - path: /opt/bin/nano
+      contents: 
+        source: https://drive.google.com/open?id=0B-w8jGUJto0iNzVBakZ3UUxLZGs
+        verification:
+          hash: sha512-cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e        
+      mode: 0555
       user:
         id: 500
       group:
