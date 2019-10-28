@@ -1,0 +1,28 @@
+variant: fcos
+version: 1.0.0
+passwd:
+  users:
+    - name: core
+      ssh_authorized_keys:
+        - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG7mD9tPBt0F1QViMXdyC5eBlXPg4uTIVanU9a5kCpbT keith@samson.flat
+    - name: keith
+      password_hash: $5$rounds=4096$pzZ2oZ6mcHUvN7/$LcrPSb272IxA6xUxZU8zGDaqKUNVuug7GScnT0zrInA
+      ssh_authorized_keys:
+        - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG7mD9tPBt0F1QViMXdyC5eBlXPg4uTIVanU9a5kCpbT keith@samson.flat
+      home_dir: /home/keith
+      no_create_home: false
+      groups:
+        - wheel
+        - plugdev
+      shell: /bin/bash
+storage:
+  files:
+    - path: /opt/goss.yaml
+      contents:
+        inline: |
+          Hello, world!
+      mode: 0644
+      user:
+        id: 500
+      group:
+        id: 501

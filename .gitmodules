@@ -1,3 +1,7 @@
 [submodule "image-builds/keithy/openresty_autossl/docker-nginx-auto-ssl"]
 	path = image-builds/keithy/openresty_autossl/docker-nginx-auto-ssl
 	url = https://github.com/Valian/docker-nginx-auto-ssl
+[submodule "angel-cli"]
+	path = angel-cli
+	url = git@gitlab.com:angelbox/angel-cli.git
+	branch = angel
